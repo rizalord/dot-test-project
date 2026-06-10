@@ -7,4 +7,14 @@ export class AppController {
   root() {
     return { year: new Date().getFullYear() };
   }
+
+  @Get('/dashboard')
+  @Render('dashboard/index')
+  dashboard() {
+    return {
+      user: { name: 'Admin', initials: 'A' },
+      categories: 0,
+      products: 0,
+    };
+  }
 }
