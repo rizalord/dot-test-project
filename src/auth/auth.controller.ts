@@ -5,12 +5,12 @@ export class AuthController {
   @Get('/login')
   @Render('auth/login')
   loginForm() {
-    return {};
+    return { title: 'Login' };
   }
 
   @Get('/register')
   @Render('auth/register')
   registerForm() {
-    return {};
+    return { title: 'Register' };
   }
 }

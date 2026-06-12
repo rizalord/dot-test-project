@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Render, Redirect, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Render,
+  Redirect,
+  Body,
+} from '@nestjs/common';
 
 interface Product {
   id: number;
@@ -19,7 +27,13 @@ const categories: Category[] = [
 ];
 
 const products: Product[] = [
-  { id: 1, name: 'Smartphone', slug: 'smartphone', price: 5000000, categoryId: 1 },
+  {
+    id: 1,
+    name: 'Smartphone',
+    slug: 'smartphone',
+    price: 5000000,
+    categoryId: 1,
+  },
   { id: 2, name: 'Laptop', slug: 'laptop', price: 15000000, categoryId: 1 },
   { id: 3, name: 'T-Shirt', slug: 't-shirt', price: 150000, categoryId: 2 },
 ];
@@ -32,6 +46,7 @@ export class ProductsController {
   @Render('products/index')
   index() {
     return {
+      title: 'Products',
       user: { name: 'Admin', initials: 'A' },
       products,
       categories,
@@ -41,7 +56,11 @@ export class ProductsController {
   @Get('/create')
   @Render('products/form')
   create() {
-    return { user: { name: 'Admin', initials: 'A' }, categories };
+    return {
+      title: 'Create Product',
+      user: { name: 'Admin', initials: 'A' },
+      categories,
+    };
   }
 
   @Post('/store')
@@ -62,22 +81,32 @@ export class ProductsController {
   @Get('/:id')
   @Render('products/show')
   show(@Param('id') id: string) {
-    const product = products.find(p => p.id === Number(id));
-    const category = categories.find(c => c.id === product?.categoryId);
-    return { user: { name: 'Admin', initials: 'A' }, product, categoryName: category?.name };
+    const product = products.find((p) => p.id === Number(id));
+    const category = categories.find((c) => c.id === product?.categoryId);
+    return {
+      title: product?.name ?? 'Product',
+      user: { name: 'Admin', initials: 'A' },
+      product,
+      categoryName: category?.name,
+    };
   }
 
   @Get('/:id/edit')
   @Render('products/form')
   edit(@Param('id') id: string) {
-    const product = products.find(p => p.id === Number(id));
-    return { user: { name: 'Admin', initials: 'A' }, product, categories };
+    const product = products.find((p) => p.id === Number(id));
+    return {
+      title: 'Edit Product',
+      user: { name: 'Admin', initials: 'A' },
+      product,
+      categories,
+    };
   }
 
   @Post('/:id/update')
   @Redirect('/products')
   update(@Param('id') id: string, @Body() body: any) {
-    const product = products.find(p => p.id === Number(id));
+    const product = products.find((p) => p.id === Number(id));
     if (product) {
       product.name = body.name;
       product.slug = body.name.toLowerCase().replace(/\s+/g, '-');
@@ -90,7 +119,7 @@ export class ProductsController {
   @Post('/:id/delete')
   @Redirect('/products')
   delete(@Param('id') id: string) {
-    const idx = products.findIndex(p => p.id === Number(id));
+    const idx = products.findIndex((p) => p.id === Number(id));
     if (idx !== -1) products.splice(idx, 1);
     return { url: '/products' };
   }

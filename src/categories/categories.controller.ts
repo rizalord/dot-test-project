@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Render, Redirect, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Render,
+  Redirect,
+  Body,
+} from '@nestjs/common';
 
 interface Category {
   id: number;
@@ -20,6 +28,7 @@ export class CategoriesController {
   index(@Param() params: any) {
     const search = '';
     return {
+      title: 'Categories',
       user: { name: 'Admin', initials: 'A' },
       categories,
       search,
@@ -29,7 +38,7 @@ export class CategoriesController {
   @Get('/create')
   @Render('categories/form')
   create() {
-    return { user: { name: 'Admin', initials: 'A' } };
+    return { title: 'Create Category', user: { name: 'Admin', initials: 'A' } };
   }
 
   @Post('/store')
@@ -44,14 +53,18 @@ export class CategoriesController {
   @Get('/:id/edit')
   @Render('categories/form')
   edit(@Param('id') id: string) {
-    const category = categories.find(c => c.id === Number(id));
-    return { user: { name: 'Admin', initials: 'A' }, category };
+    const category = categories.find((c) => c.id === Number(id));
+    return {
+      title: 'Edit Category',
+      user: { name: 'Admin', initials: 'A' },
+      category,
+    };
   }
 
   @Post('/:id/update')
   @Redirect('/categories')
   update(@Param('id') id: string, @Body() body: any) {
-    const category = categories.find(c => c.id === Number(id));
+    const category = categories.find((c) => c.id === Number(id));
     if (category) {
       category.name = body.name;
       category.slug = body.name.toLowerCase().replace(/\s+/g, '-');
@@ -62,7 +75,7 @@ export class CategoriesController {
   @Post('/:id/delete')
   @Redirect('/categories')
   delete(@Param('id') id: string) {
-    const idx = categories.findIndex(c => c.id === Number(id));
+    const idx = categories.findIndex((c) => c.id === Number(id));
     if (idx !== -1) categories.splice(idx, 1);
     return { url: '/categories' };
   }

@@ -1,0 +1,19 @@
+<header class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center gap-3">
+        <span class="text-lg font-bold text-gray-900">ProductMS</span>
+      </div>
+      <div class="flex items-center gap-4">
+        {{#if user}}
+        <span class="text-sm text-gray-600">{{user.name}}</span>
+        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
+          <span class="text-xs font-medium text-white">{{user.initials}}</span>
+        </div>
+        {{else}}
+        <a href="/login" class="text-sm text-gray-600 hover:text-gray-900">Login</a>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</header>

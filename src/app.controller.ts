@@ -5,13 +5,14 @@ export class AppController {
   @Get()
   @Render('index')
   root() {
-    return { year: new Date().getFullYear() };
+    return { title: 'Home' };
   }
 
   @Get('/dashboard')
   @Render('dashboard/index')
   dashboard() {
     return {
+      title: 'Dashboard',
       user: { name: 'Admin', initials: 'A' },
       categories: 0,
       products: 0,

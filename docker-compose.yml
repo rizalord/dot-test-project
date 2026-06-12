@@ -13,7 +13,6 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
     volumes:
       - ./src:/app/src
-      - ./views:/app/views
       - ./prisma:/app/prisma
     depends_on:
       db:
