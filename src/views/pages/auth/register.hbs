@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register — Product Management</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
 </head>
 <body class="h-full">
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -12,8 +14,8 @@
     <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Create your account</h2>
   </div>
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form method="POST" action="/register" class="space-y-6">
-      {{#if error}}<div class="rounded-md bg-red-50 p-3 text-sm text-red-800">{{error}}</div>{{/if}}
+    <form id="register-form" onsubmit="return false;" class="space-y-6">
+      <div id="auth-error" class="hidden rounded-md bg-red-50 p-3 text-sm text-red-800"></div>
       <div>
         <label for="name" class="block text-sm/6 font-medium text-gray-900">Full name</label>
         <div class="mt-2">
@@ -47,5 +49,6 @@
     <p class="mt-10 text-center text-sm/6 text-gray-500">Already have an account? <a href="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Sign in</a></p>
   </div>
 </div>
+<script>Auth.redirectIfAuthenticated();Auth.handleRegister();</script>
 </body>
 </html>
