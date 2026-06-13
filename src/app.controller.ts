@@ -1,5 +1,6 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Render, Res } from '@nestjs/common';
 import { Public } from './common/decorators/public.decorator';
+import type { Response } from 'express';
 
 @Public()
 @Controller()
@@ -13,11 +14,11 @@ export class AppController {
   @Get('/dashboard')
   @Render('pages/dashboard/index')
   dashboard() {
-    return {
-      title: 'Dashboard',
-      user: { name: 'Admin', initials: 'A' },
-      categories: 0,
-      products: 0,
-    };
+    return { title: 'Dashboard' };
+  }
+
+  @Get('/favicon.ico')
+  favicon(@Res() res: Response) {
+    res.status(204).end();
   }
 }

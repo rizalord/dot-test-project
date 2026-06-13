@@ -64,5 +64,7 @@ const API = (() => {
         body: JSON.stringify({ name, email, password }),
       }),
     getMe: () => apiFetch('/auth/me'),
+    getCategoriesCount: () => apiFetch('/categories/count'),
+    getProductsCount: () => apiFetch('/products/count'),
   };
 })();
