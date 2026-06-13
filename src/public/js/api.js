@@ -36,6 +36,10 @@ const API = (() => {
     const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
 
     if (res.status === 401) {
+      if (endpoint === '/auth/login' || endpoint === '/auth/register') {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || 'Invalid credentials');
+      }
       clearToken();
       window.location.href = '/login';
       throw new Error('Session expired. Please login again.');

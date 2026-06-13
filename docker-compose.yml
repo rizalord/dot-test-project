@@ -4,11 +4,12 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "${PORT:-3002}:${PORT:-3002}"
+      - "${PORT:-3000}:${PORT:-3000}"
+      - "5555:5555" # For Prisma Studio
     env_file:
       - .env
     environment:
-      PORT: ${PORT:-3002}
+      PORT: ${PORT:-3000}
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@db:5432/adminpanel?schema=public}
       JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-change-in-production}
       NODE_ENV: ${NODE_ENV:-development}

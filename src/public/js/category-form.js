@@ -19,6 +19,12 @@
     var categoryId = form.dataset.id;
 
     if (isEdit && categoryId) {
+      document.getElementById('page-title').textContent =
+        'Edit Category — Product Management';
+      document.getElementById('form-mode').textContent = 'Edit';
+      document.getElementById('form-title').textContent = 'Edit Category';
+      document.getElementById('form-submit-btn').textContent = 'Update';
+
       try {
         var res = await API.apiFetch('/categories/' + categoryId);
         nameInput.value = res.data.name;
