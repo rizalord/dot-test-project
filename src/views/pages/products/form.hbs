@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Create Product — Product Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/middleware.js"></script>
+  <script src="/js/product-form.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  {{> navbar}}
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6">
+      <a href="/dashboard" class="hover:text-gray-700">Home</a><span>/</span><a href="/products" class="hover:text-gray-700">Products</a><span>/</span><span id="form-mode" class="text-gray-900 font-medium">Create</span>
+    </nav>
+    <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <h1 id="form-title" class="text-xl font-bold text-gray-900 mb-6">Create Product</h1>
+      <div id="form-error" class="hidden mb-4 rounded-md bg-red-50 p-3 text-sm text-red-800"></div>
+      <form id="product-form" data-edit="{{isEdit}}" data-id="{{id}}" class="space-y-5">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-900 mb-1.5">Name</label>
+          <input type="text" name="name" id="name" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="Product name">
+        </div>
+        <div>
+          <label for="categoryIds" class="block text-sm font-medium text-gray-900 mb-1.5">Categories</label>
+          <select name="categoryIds" id="categoryIds" multiple required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 min-h-[120px]">
+            <option value="">Loading categories...</option>
+          </select>
+          <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
+        </div>
+        <div>
+          <label for="price" class="block text-sm font-medium text-gray-900 mb-1.5">Price</label>
+          <input type="number" name="price" id="price" required min="0" class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="0">
+        </div>
+        <div class="flex items-center gap-3 pt-2">
+          <button type="submit" id="form-submit-btn" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Save</button>
+          <a href="/products" class="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
