@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 import type { AuthenticatedUser } from '../auth/types/auth.types';
 import type { ResponseDto } from '../../../common/dto/response.dto';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -25,8 +27,9 @@ export class CategoriesController {
   @Get()
   findAll(
     @CurrentUser() user: AuthenticatedUser,
+    @Query() query: PaginationQueryDto,
   ): Promise<ResponseDto<CategoryResource[]>> {
-    return this.categoriesService.findAll(user.id);
+    return this.categoriesService.findAll(user.id, query);
   }
 
   @Get(':id')

@@ -17,6 +17,7 @@ describe('CategoriesService', () => {
       create: jest.Mock;
       update: jest.Mock;
       delete: jest.Mock;
+      count: jest.Mock;
     };
   };
 
@@ -30,6 +31,7 @@ describe('CategoriesService', () => {
     created_at: now,
     updated_at: now,
   };
+  const defaultQuery = { search: undefined, page: 1, limit: 10 };
 
   beforeEach(async () => {
     prisma = {
@@ -39,6 +41,7 @@ describe('CategoriesService', () => {
         create: jest.fn(),
         update: jest.fn(),
         delete: jest.fn(),
+        count: jest.fn(),
       },
     };
 
@@ -53,14 +56,20 @@ describe('CategoriesService', () => {
   });
 
   describe('findAll', () => {
-    it('returns list of categories', async () => {
+    it('returns paginated list of categories', async () => {
       prisma.category.findMany.mockResolvedValue([baseCategory]);
+      prisma.category.count.mockResolvedValue(1);
 
-      const result = await service.findAll(userId);
+      const result = await service.findAll(userId, defaultQuery);
 
       expect(prisma.category.findMany).toHaveBeenCalledWith({
         where: { user_id: userId },
         orderBy: { created_at: 'desc' },
+        skip: 0,
+        take: 10,
+      });
+      expect(prisma.category.count).toHaveBeenCalledWith({
+        where: { user_id: userId },
       });
       expect(result).toEqual({
         message: 'Categories retrieved successfully',
@@ -73,15 +82,37 @@ describe('CategoriesService', () => {
             updated_at: baseCategory.updated_at,
           },
         ],
+        meta: { page: 1, limit: 10, total: 1, total_pages: 1 },
       });
+    });
+
+    it('searches by name', async () => {
+      prisma.category.findMany.mockResolvedValue([baseCategory]);
+      prisma.category.count.mockResolvedValue(1);
+
+      await service.findAll(userId, { ...defaultQuery, search: 'Elect' });
+
+      expect(prisma.category.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            user_id: userId,
+            OR: [
+              { name: { contains: 'Elect', mode: 'insensitive' } },
+              { slug: { contains: 'Elect', mode: 'insensitive' } },
+            ],
+          }),
+        }),
+      );
     });
 
     it('returns empty array when no categories', async () => {
       prisma.category.findMany.mockResolvedValue([]);
+      prisma.category.count.mockResolvedValue(0);
 
-      const result = await service.findAll(userId);
+      const result = await service.findAll(userId, defaultQuery);
 
       expect(result.data).toEqual([]);
+      expect(result.meta?.total).toBe(0);
     });
   });
 

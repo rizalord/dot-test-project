@@ -6,6 +6,8 @@ import {
 import type { Prisma } from '../../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ResponseDto } from '../../../common/dto/response.dto';
+import type { PaginationMeta } from '../../../common/dto/response.dto';
+import type { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import type { ProductResource } from './types/product.types';
@@ -45,16 +47,43 @@ const productInclude = {
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(userId: string): Promise<ResponseDto<ProductResource[]>> {
-    const products = await this.prisma.product.findMany({
-      where: { user_id: userId },
-      include: productInclude,
-      orderBy: { created_at: 'desc' },
-    });
+  async findAll(
+    userId: string,
+    query: PaginationQueryDto,
+  ): Promise<ResponseDto<ProductResource[]>> {
+    const { search, page = 1, limit = 10 } = query;
+
+    const where: Prisma.ProductWhereInput = {
+      user_id: userId,
+      ...(search
+        ? {
+            OR: [{ name: { contains: search, mode: 'insensitive' } }],
+          }
+        : {}),
+    };
+
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        where,
+        include: productInclude,
+        orderBy: { created_at: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.product.count({ where }),
+    ]);
+
+    const meta: PaginationMeta = {
+      page,
+      limit,
+      total,
+      total_pages: Math.ceil(total / limit),
+    };
 
     return {
       message: 'Products retrieved successfully',
       data: products.map(toResource),
+      meta,
     };
   }
 

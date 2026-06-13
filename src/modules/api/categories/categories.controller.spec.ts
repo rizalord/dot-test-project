@@ -7,6 +7,7 @@ jest.mock('../../prisma/prisma.service', () => ({
 }));
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 
 describe('CategoriesController', () => {
   let controller: CategoriesController;
@@ -36,6 +37,7 @@ describe('CategoriesController', () => {
               create: jest.fn(),
               update: jest.fn(),
               delete: jest.fn(),
+              count: jest.fn(),
             },
           },
         },
@@ -51,17 +53,19 @@ describe('CategoriesController', () => {
   });
 
   describe('findAll', () => {
-    it('calls service.findAll with user id', async () => {
+    it('calls service.findAll with user id and query', async () => {
+      const query: PaginationQueryDto = { page: 1, limit: 10 };
       const expected = {
         message: 'Categories retrieved successfully',
         data: [baseCategory],
+        meta: { page: 1, limit: 10, total: 1, total_pages: 1 },
       };
       jest.spyOn(categoriesService, 'findAll').mockResolvedValue(expected);
 
-      const result = await controller.findAll(user);
+      const result = await controller.findAll(user, query);
 
       expect(result).toEqual(expected);
-      expect(categoriesService.findAll).toHaveBeenCalledWith('user-1');
+      expect(categoriesService.findAll).toHaveBeenCalledWith('user-1', query);
     });
   });
 

@@ -18,6 +18,7 @@ describe('ProductsService', () => {
       create: jest.Mock;
       update: jest.Mock;
       delete: jest.Mock;
+      count: jest.Mock;
     };
     productCategory: {
       deleteMany: jest.Mock;
@@ -49,6 +50,7 @@ describe('ProductsService', () => {
       },
     ],
   };
+  const defaultQuery = { search: undefined, page: 1, limit: 10 };
 
   beforeEach(async () => {
     prisma = {
@@ -59,6 +61,7 @@ describe('ProductsService', () => {
         create: jest.fn(),
         update: jest.fn(),
         delete: jest.fn(),
+        count: jest.fn(),
       },
       productCategory: {
         deleteMany: jest.fn(),
@@ -77,28 +80,58 @@ describe('ProductsService', () => {
   });
 
   describe('findAll', () => {
-    it('returns list of products', async () => {
+    it('returns paginated list of products', async () => {
       prisma.product.findMany.mockResolvedValue([baseProduct]);
+      prisma.product.count.mockResolvedValue(1);
 
-      const result = await service.findAll(userId);
+      const result = await service.findAll(userId, defaultQuery);
 
       expect(prisma.product.findMany).toHaveBeenCalledWith({
         where: { user_id: userId },
         include: { categories: { include: { category: true } } },
         orderBy: { created_at: 'desc' },
+        skip: 0,
+        take: 10,
+      });
+      expect(prisma.product.count).toHaveBeenCalledWith({
+        where: { user_id: userId },
       });
       expect(result.message).toBe('Products retrieved successfully');
       expect(result.data).toHaveLength(1);
       expect(result.data[0].categories).toHaveLength(1);
       expect(result.data[0].categories[0].name).toBe('Electronics');
+      expect(result.meta).toEqual({
+        page: 1,
+        limit: 10,
+        total: 1,
+        total_pages: 1,
+      });
+    });
+
+    it('searches by name', async () => {
+      prisma.product.findMany.mockResolvedValue([baseProduct]);
+      prisma.product.count.mockResolvedValue(1);
+
+      await service.findAll(userId, { ...defaultQuery, search: 'Phone' });
+
+      expect(prisma.product.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            user_id: userId,
+            OR: [{ name: { contains: 'Phone', mode: 'insensitive' } }],
+          }),
+        }),
+      );
     });
 
     it('returns empty array when no products', async () => {
       prisma.product.findMany.mockResolvedValue([]);
+      prisma.product.count.mockResolvedValue(0);
 
-      const result = await service.findAll(userId);
+      const result = await service.findAll(userId, defaultQuery);
 
       expect(result.data).toEqual([]);
+      expect(result.meta?.total).toBe(0);
     });
   });
 

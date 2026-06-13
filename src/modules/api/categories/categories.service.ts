@@ -6,6 +6,8 @@ import {
 import type { Prisma } from '../../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ResponseDto } from '../../../common/dto/response.dto';
+import type { PaginationMeta } from '../../../common/dto/response.dto';
+import type { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import type { CategoryResource } from './types/category.types';
@@ -33,15 +35,45 @@ function toResource(
 export class CategoriesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(userId: string): Promise<ResponseDto<CategoryResource[]>> {
-    const categories = await this.prisma.category.findMany({
-      where: { user_id: userId },
-      orderBy: { created_at: 'desc' },
-    });
+  async findAll(
+    userId: string,
+    query: PaginationQueryDto,
+  ): Promise<ResponseDto<CategoryResource[]>> {
+    const { search, page = 1, limit = 10 } = query;
+
+    const where: Prisma.CategoryWhereInput = {
+      user_id: userId,
+      ...(search
+        ? {
+            OR: [
+              { name: { contains: search, mode: 'insensitive' } },
+              { slug: { contains: search, mode: 'insensitive' } },
+            ],
+          }
+        : {}),
+    };
+
+    const [categories, total] = await Promise.all([
+      this.prisma.category.findMany({
+        where,
+        orderBy: { created_at: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      this.prisma.category.count({ where }),
+    ]);
+
+    const meta: PaginationMeta = {
+      page,
+      limit,
+      total,
+      total_pages: Math.ceil(total / limit),
+    };
 
     return {
       message: 'Categories retrieved successfully',
       data: categories.map(toResource),
+      meta,
     };
   }
 

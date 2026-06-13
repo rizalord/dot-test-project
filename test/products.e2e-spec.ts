@@ -48,6 +48,7 @@ describe('Products API (e2e)', () => {
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      count: jest.fn(),
     },
     productCategory: {
       deleteMany: jest.fn(),
@@ -88,8 +89,14 @@ describe('Products API (e2e)', () => {
 
   beforeEach(() => {
     for (const key of Object.keys(prismaMock)) {
-      for (const method of Object.keys(prismaMock[key as keyof typeof prismaMock])) {
-        (prismaMock[key as keyof typeof prismaMock][method as keyof typeof prismaMock[keyof typeof prismaMock]] as jest.Mock).mockReset();
+      for (const method of Object.keys(
+        prismaMock[key as keyof typeof prismaMock],
+      )) {
+        (
+          prismaMock[key as keyof typeof prismaMock][
+            method as keyof (typeof prismaMock)[keyof typeof prismaMock]
+          ] as jest.Mock
+        ).mockReset();
       }
     }
   });
@@ -109,8 +116,9 @@ describe('Products API (e2e)', () => {
         .expect(HttpStatus.UNAUTHORIZED);
     });
 
-    it('returns 200 with products list', async () => {
+    it('returns 200 with paginated products list', async () => {
       prismaMock.product.findMany.mockResolvedValue([productRecord]);
+      prismaMock.product.count.mockResolvedValue(1);
 
       const res = await request(app.getHttpServer())
         .get('/api/v1/products')
@@ -127,7 +135,28 @@ describe('Products API (e2e)', () => {
             price: 5000000,
           },
         ],
+        meta: { page: 1, limit: 10, total: 1, total_pages: 1 },
       });
+    });
+
+    it('supports search and pagination query params', async () => {
+      prismaMock.product.findMany.mockResolvedValue([]);
+      prismaMock.product.count.mockResolvedValue(0);
+
+      await request(app.getHttpServer())
+        .get('/api/v1/products?search=Phone&page=2&limit=5')
+        .set('Authorization', `Bearer ${validToken()}`)
+        .expect(HttpStatus.OK);
+
+      expect(prismaMock.product.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          skip: 5,
+          take: 5,
+          where: expect.objectContaining({
+            OR: [{ name: { contains: 'Phone', mode: 'insensitive' } }],
+          }),
+        }),
+      );
     });
   });
 

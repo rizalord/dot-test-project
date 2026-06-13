@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/strategy/jwt-auth.guard';
 import type { AuthenticatedUser } from '../auth/types/auth.types';
 import type { ResponseDto } from '../../../common/dto/response.dto';
+import { PaginationQueryDto } from '../../../common/dto/pagination-query.dto';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -25,8 +27,9 @@ export class ProductsController {
   @Get()
   findAll(
     @CurrentUser() user: AuthenticatedUser,
+    @Query() query: PaginationQueryDto,
   ): Promise<ResponseDto<ProductResource[]>> {
-    return this.productsService.findAll(user.id);
+    return this.productsService.findAll(user.id, query);
   }
 
   @Get(':id')

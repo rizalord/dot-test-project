@@ -30,6 +30,7 @@ describe('Categories API (e2e)', () => {
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      count: jest.fn(),
     },
   };
 
@@ -69,6 +70,7 @@ describe('Categories API (e2e)', () => {
     prismaMock.category.create.mockReset();
     prismaMock.category.update.mockReset();
     prismaMock.category.delete.mockReset();
+    prismaMock.category.count.mockReset();
   });
 
   function validToken(): string {
@@ -86,8 +88,9 @@ describe('Categories API (e2e)', () => {
         .expect(HttpStatus.UNAUTHORIZED);
     });
 
-    it('returns 200 with categories list', async () => {
+    it('returns 200 with paginated categories', async () => {
       prismaMock.category.findMany.mockResolvedValue([categoryRecord]);
+      prismaMock.category.count.mockResolvedValue(1);
 
       const res = await request(app.getHttpServer())
         .get('/api/v1/categories')
@@ -103,7 +106,31 @@ describe('Categories API (e2e)', () => {
             slug: categoryRecord.slug,
           },
         ],
+        meta: { page: 1, limit: 10, total: 1, total_pages: 1 },
       });
+    });
+
+    it('supports search and pagination query params', async () => {
+      prismaMock.category.findMany.mockResolvedValue([]);
+      prismaMock.category.count.mockResolvedValue(0);
+
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/categories?search=test&page=2&limit=5')
+        .set('Authorization', `Bearer ${validToken()}`)
+        .expect(HttpStatus.OK);
+
+      expect(res.body.meta).toMatchObject({ page: 2, limit: 5, total: 0 });
+      expect(prismaMock.category.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          skip: 5,
+          take: 5,
+          where: expect.objectContaining({
+            OR: expect.arrayContaining([
+              { name: { contains: 'test', mode: 'insensitive' } },
+            ]),
+          }),
+        }),
+      );
     });
   });
 
