@@ -1,12 +1,13 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { PrismaModule } from './modules/prisma/prisma.module'
-import { AuthModule } from './modules/auth/auth.module'
-import { CategoriesModule } from './modules/categories/categories.module'
-import { ProductsModule } from './modules/products/products.module'
-import configuration from './config/app'
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { PrismaModule } from './modules/prisma/prisma.module';
+import { ApiAuthModule } from './modules/api/auth/api-auth.module';
+import { WebAuthModule } from './modules/web/auth/web-auth.module';
+import { WebCategoriesModule } from './modules/web/categories/web-categories.module';
+import { WebProductsModule } from './modules/web/products/web-products.module';
+import configuration from './config/app';
 
 @Module({
   imports: [
@@ -15,11 +16,12 @@ import configuration from './config/app'
       isGlobal: true,
     }),
     PrismaModule,
-    AuthModule,
-    CategoriesModule,
-    ProductsModule,
+    ApiAuthModule,
+    WebAuthModule,
+    WebCategoriesModule,
+    WebProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

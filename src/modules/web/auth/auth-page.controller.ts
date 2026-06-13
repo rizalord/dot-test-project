@@ -1,7 +1,9 @@
 import { Controller, Get, Render } from '@nestjs/common';
+import { Public } from '../../../common/decorators/public.decorator';
 
+@Public()
 @Controller()
-export class AuthController {
+export class AuthPageController {
   @Get('/login')
   @Render('pages/auth/login')
   loginForm() {
