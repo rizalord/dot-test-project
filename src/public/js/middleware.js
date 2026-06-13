@@ -1,5 +1,12 @@
 (function () {
   'use strict';
-  if (Auth.redirectIfGuest()) return;
-  Auth.updateNavbar();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  function init() {
+    if (Auth.redirectIfGuest()) return;
+    Auth.updateNavbar();
+  }
 })();
