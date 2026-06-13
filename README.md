@@ -34,6 +34,41 @@ A full-featured admin panel for managing products and categories, built with Nes
 | Frontend | Server-side rendered Handlebars + Tailwind CSS |
 | Auth | JWT (JSON Web Tokens) |
 
+## Dependencies
+
+### Runtime
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/common` | ^11.0.1 | NestJS core decorators, guards, pipes, and utilities |
+| `@nestjs/core` | ^11.0.1 | NestJS application framework |
+| `@nestjs/config` | ^4.0.4 | Environment-based configuration management |
+| `@nestjs/jwt` | ^11.0.2 | JWT token generation and validation |
+| `@nestjs/passport` | ^11.0.5 | Passport authentication integration for NestJS |
+| `@nestjs/platform-express` | ^11.0.1 | Express HTTP adapter for NestJS |
+| `@prisma/client` / `@prisma/adapter-pg` | ^7.8.0 | Prisma ORM client with PostgreSQL adapter |
+| `prisma` | ^7.8.0 | Prisma CLI and schema management |
+| `bcrypt` | ^6.0.0 | Password hashing |
+| `class-transformer` | ^0.5.1 | Object-to-class serialization/deserialization |
+| `class-validator` | ^0.15.1 | Decorator-based input validation |
+| `passport` / `passport-jwt` | ^0.7.0 / ^4.0.1 | JWT authentication strategy |
+| `pg` | ^8.21.0 | PostgreSQL native driver |
+| `express-handlebars` | ^9.0.1 | Handlebars view engine for server-side rendering |
+| `hbs` | ^4.2.1 | Express Handlebars adapter |
+| `reflect-metadata` | ^0.2.2 | TypeScript decorator metadata polyfill |
+| `rxjs` | ^7.8.1 | Reactive extensions for async operations |
+
+### Dev / Build
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/cli` | ^11.0.0 | NestJS CLI for code generation and build |
+| `typescript` | ^5.7.3 | TypeScript compiler |
+| `ts-jest` / `jest` | ^30.0.0 | TypeScript-aware unit testing |
+| `supertest` | ^7.0.0 | HTTP integration testing |
+| `eslint` / `prettier` | ^9.x / ^3.4.2 | Code linting and formatting |
+| `ts-loader` | ^9.5.2 | Webpack TypeScript loader (NestJS build) |
+
 ## Getting Started
 
 ### Prerequisites
