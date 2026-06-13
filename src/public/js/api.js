@@ -73,8 +73,26 @@ const API = (() => {
       const query = qs.toString();
       return apiFetch(`/categories${query ? '?' + query : ''}`);
     },
+    getCategoriesAll: () => apiFetch('/categories?limit=999'),
     deleteCategory: (id) => apiFetch(`/categories/${id}`, { method: 'DELETE' }),
     getCategoriesCount: () => apiFetch('/categories/count'),
+    getProducts: (params = {}) => {
+      const qs = new URLSearchParams();
+      if (params.search) qs.set('search', params.search);
+      if (params.page) qs.set('page', params.page);
+      if (params.limit) qs.set('limit', params.limit);
+      const query = qs.toString();
+      return apiFetch(`/products${query ? '?' + query : ''}`);
+    },
+    getProduct: (id) => apiFetch(`/products/${id}`),
+    createProduct: (data) =>
+      apiFetch('/products', { method: 'POST', body: JSON.stringify(data) }),
+    updateProduct: (id, data) =>
+      apiFetch(`/products/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+      }),
+    deleteProduct: (id) => apiFetch(`/products/${id}`, { method: 'DELETE' }),
     getProductsCount: () => apiFetch('/products/count'),
   };
 })();

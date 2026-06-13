@@ -32,6 +32,9 @@ describe('Categories API (e2e)', () => {
       delete: jest.fn(),
       count: jest.fn(),
     },
+    productCategory: {
+      deleteMany: jest.fn(),
+    },
   };
 
   const configMock: Partial<ConfigService> = {
@@ -71,6 +74,7 @@ describe('Categories API (e2e)', () => {
     prismaMock.category.update.mockReset();
     prismaMock.category.delete.mockReset();
     prismaMock.category.count.mockReset();
+    prismaMock.productCategory.deleteMany.mockReset();
   });
 
   function validToken(): string {

@@ -8,6 +8,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/middleware.js"></script>
+  <script src="/js/products.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
   {{> navbar}}
@@ -20,31 +21,21 @@
       <a href="/products/create" class="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Add Product</a>
     </div>
+    <form id="search-form" class="mb-6">
+      <div class="flex gap-3">
+        <input type="text" id="search-input" class="block w-full max-w-xs rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500" placeholder="Search products...">
+        <button type="submit" id="search-btn" class="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800">Search</button>
+      </div>
+    </form>
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th><th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th><th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th></tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
-          {{#each products}}
-          <tr class="hover:bg-gray-50">
-            <td class="px-6 py-4"><a href="/products/{{this.id}}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{this.name}}</a></td>
-            <td class="px-6 py-4 text-sm text-gray-500">{{categoryName this.categoryId}}</td>
-            <td class="px-6 py-4 text-sm text-gray-900">{{formatPrice this.price}}</td>
-            <td class="px-6 py-4 text-right">
-              <a href="/products/{{this.id}}/edit" class="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-500 mr-3">Edit</a>
-              <button onclick="confirmDelete({{this.id}})" class="inline-flex items-center gap-1 text-sm font-medium text-red-600 hover:text-red-500">Delete</button>
-            </td>
-          </tr>
-          {{else}}
-          <tr><td colspan="4" class="px-6 py-12 text-center text-sm text-gray-500">No products found.</td></tr>
-          {{/each}}
-        </tbody>
+        <tbody id="products-tbody" class="divide-y divide-gray-200"></tbody>
       </table>
     </div>
+    <div id="pagination"></div>
   </div>
-  <script>
-  function confirmDelete(id) { if (confirm('Are you sure you want to delete this product?')) { var f = document.createElement('form'); f.method = 'POST'; f.action = '/products/' + id + '/delete'; document.body.appendChild(f); f.submit(); } }
-  </script>
 </body>
 </html>

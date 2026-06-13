@@ -177,6 +177,10 @@ export class CategoriesService {
   async remove(userId: string, id: string): Promise<ResponseDto<null>> {
     await this.findCategoryOrThrow(userId, id);
 
+    await this.prisma.productCategory.deleteMany({
+      where: { category_id: id },
+    });
+
     await this.prisma.category.delete({ where: { id } });
 
     return {

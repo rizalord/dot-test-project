@@ -19,6 +19,9 @@ describe('CategoriesService', () => {
       delete: jest.Mock;
       count: jest.Mock;
     };
+    productCategory: {
+      deleteMany: jest.Mock;
+    };
   };
 
   const userId = 'user-1';
@@ -42,6 +45,9 @@ describe('CategoriesService', () => {
         update: jest.fn(),
         delete: jest.fn(),
         count: jest.fn(),
+      },
+      productCategory: {
+        deleteMany: jest.fn(),
       },
     };
 
@@ -233,10 +239,14 @@ describe('CategoriesService', () => {
   describe('remove', () => {
     it('deletes and returns success', async () => {
       prisma.category.findFirst.mockResolvedValue(baseCategory);
+      prisma.productCategory.deleteMany.mockResolvedValue(undefined);
       prisma.category.delete.mockResolvedValue(baseCategory);
 
       const result = await service.remove(userId, 'cat-1');
 
+      expect(prisma.productCategory.deleteMany).toHaveBeenCalledWith({
+        where: { category_id: 'cat-1' },
+      });
       expect(prisma.category.delete).toHaveBeenCalledWith({
         where: { id: 'cat-1' },
       });
