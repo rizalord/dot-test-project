@@ -3,13 +3,13 @@ import { Controller, Get, Render } from '@nestjs/common';
 @Controller()
 export class AppController {
   @Get()
-  @Render('index')
+  @Render('pages/index')
   root() {
     return { title: 'Home' };
   }
 
   @Get('/dashboard')
-  @Render('dashboard/index')
+  @Render('pages/dashboard/index')
   dashboard() {
     return {
       title: 'Dashboard',

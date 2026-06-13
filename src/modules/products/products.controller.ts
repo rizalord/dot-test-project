@@ -43,7 +43,7 @@ let nextId = 4;
 @Controller('/products')
 export class ProductsController {
   @Get()
-  @Render('products/index')
+  @Render('pages/products/index')
   index() {
     return {
       title: 'Products',
@@ -54,7 +54,7 @@ export class ProductsController {
   }
 
   @Get('/create')
-  @Render('products/form')
+  @Render('pages/products/form')
   create() {
     return {
       title: 'Create Product',
@@ -79,7 +79,7 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  @Render('products/show')
+  @Render('pages/products/show')
   show(@Param('id') id: string) {
     const product = products.find((p) => p.id === Number(id));
     const category = categories.find((c) => c.id === product?.categoryId);
@@ -92,7 +92,7 @@ export class ProductsController {
   }
 
   @Get('/:id/edit')
-  @Render('products/form')
+  @Render('pages/products/form')
   edit(@Param('id') id: string) {
     const product = products.find((p) => p.id === Number(id));
     return {

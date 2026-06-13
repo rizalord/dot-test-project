@@ -24,7 +24,7 @@ let nextId = 3;
 @Controller('/categories')
 export class CategoriesController {
   @Get()
-  @Render('categories/index')
+  @Render('pages/categories/index')
   index(@Param() params: any) {
     const search = '';
     return {
@@ -36,7 +36,7 @@ export class CategoriesController {
   }
 
   @Get('/create')
-  @Render('categories/form')
+  @Render('pages/categories/form')
   create() {
     return { title: 'Create Category', user: { name: 'Admin', initials: 'A' } };
   }
@@ -51,7 +51,7 @@ export class CategoriesController {
   }
 
   @Get('/:id/edit')
-  @Render('categories/form')
+  @Render('pages/categories/form')
   edit(@Param('id') id: string) {
     const category = categories.find((c) => c.id === Number(id));
     return {
