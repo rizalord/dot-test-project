@@ -53,6 +53,7 @@ const API = (() => {
     clearToken,
     decodeToken,
     isTokenExpired,
+    apiFetch,
     login: (email, password) =>
       apiFetch('/auth/login', {
         method: 'POST',
@@ -64,6 +65,15 @@ const API = (() => {
         body: JSON.stringify({ name, email, password }),
       }),
     getMe: () => apiFetch('/auth/me'),
+    getCategories: (params = {}) => {
+      const qs = new URLSearchParams();
+      if (params.search) qs.set('search', params.search);
+      if (params.page) qs.set('page', params.page);
+      if (params.limit) qs.set('limit', params.limit);
+      const query = qs.toString();
+      return apiFetch(`/categories${query ? '?' + query : ''}`);
+    },
+    deleteCategory: (id) => apiFetch(`/categories/${id}`, { method: 'DELETE' }),
     getCategoriesCount: () => apiFetch('/categories/count'),
     getProductsCount: () => apiFetch('/products/count'),
   };
