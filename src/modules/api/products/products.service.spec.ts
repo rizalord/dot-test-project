@@ -135,6 +135,22 @@ describe('ProductsService', () => {
     });
   });
 
+  describe('count', () => {
+    it('returns total count', async () => {
+      prisma.product.count.mockResolvedValue(5);
+
+      const result = await service.count(userId);
+
+      expect(prisma.product.count).toHaveBeenCalledWith({
+        where: { user_id: userId },
+      });
+      expect(result).toEqual({
+        message: 'Product count retrieved successfully',
+        data: { total: 5 },
+      });
+    });
+  });
+
   describe('findOne', () => {
     it('returns product when found', async () => {
       prisma.product.findFirst.mockResolvedValue(baseProduct);

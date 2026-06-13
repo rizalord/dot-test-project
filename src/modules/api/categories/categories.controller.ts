@@ -32,6 +32,13 @@ export class CategoriesController {
     return this.categoriesService.findAll(user.id, query);
   }
 
+  @Get('count')
+  count(
+    @CurrentUser() user: AuthenticatedUser,
+  ): Promise<ResponseDto<{ total: number }>> {
+    return this.categoriesService.count(user.id);
+  }
+
   @Get(':id')
   findOne(
     @CurrentUser() user: AuthenticatedUser,

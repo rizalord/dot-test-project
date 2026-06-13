@@ -32,6 +32,13 @@ export class ProductsController {
     return this.productsService.findAll(user.id, query);
   }
 
+  @Get('count')
+  count(
+    @CurrentUser() user: AuthenticatedUser,
+  ): Promise<ResponseDto<{ total: number }>> {
+    return this.productsService.count(user.id);
+  }
+
   @Get(':id')
   findOne(
     @CurrentUser() user: AuthenticatedUser,

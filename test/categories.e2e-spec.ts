@@ -134,6 +134,22 @@ describe('Categories API (e2e)', () => {
     });
   });
 
+  describe('GET /api/v1/categories/count', () => {
+    it('returns 200 with total count', async () => {
+      prismaMock.category.count.mockResolvedValue(3);
+
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/categories/count')
+        .set('Authorization', `Bearer ${validToken()}`)
+        .expect(HttpStatus.OK);
+
+      expect(res.body).toMatchObject({
+        message: 'Category count retrieved successfully',
+        data: { total: 3 },
+      });
+    });
+  });
+
   describe('GET /api/v1/categories/:id', () => {
     it('returns 200 with category', async () => {
       prismaMock.category.findFirst.mockResolvedValue(categoryRecord);

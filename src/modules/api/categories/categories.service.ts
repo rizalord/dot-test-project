@@ -77,6 +77,17 @@ export class CategoriesService {
     };
   }
 
+  async count(userId: string): Promise<ResponseDto<{ total: number }>> {
+    const total = await this.prisma.category.count({
+      where: { user_id: userId },
+    });
+
+    return {
+      message: 'Category count retrieved successfully',
+      data: { total },
+    };
+  }
+
   private async findCategoryOrThrow(userId: string, id: string) {
     let category: Prisma.CategoryGetPayload<Record<string, never>> | null;
 

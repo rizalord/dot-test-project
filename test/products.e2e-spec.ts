@@ -160,6 +160,22 @@ describe('Products API (e2e)', () => {
     });
   });
 
+  describe('GET /api/v1/products/count', () => {
+    it('returns 200 with total count', async () => {
+      prismaMock.product.count.mockResolvedValue(3);
+
+      const res = await request(app.getHttpServer())
+        .get('/api/v1/products/count')
+        .set('Authorization', `Bearer ${validToken()}`)
+        .expect(HttpStatus.OK);
+
+      expect(res.body).toMatchObject({
+        message: 'Product count retrieved successfully',
+        data: { total: 3 },
+      });
+    });
+  });
+
   describe('GET /api/v1/products/:id', () => {
     it('returns 200 with product', async () => {
       prismaMock.product.findFirst.mockResolvedValue(productRecord);

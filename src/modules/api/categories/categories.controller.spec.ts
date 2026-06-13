@@ -69,6 +69,21 @@ describe('CategoriesController', () => {
     });
   });
 
+  describe('count', () => {
+    it('calls service.count with user id', async () => {
+      const expected = {
+        message: 'Category count retrieved successfully',
+        data: { total: 5 },
+      };
+      jest.spyOn(categoriesService, 'count').mockResolvedValue(expected);
+
+      const result = await controller.count(user);
+
+      expect(result).toEqual(expected);
+      expect(categoriesService.count).toHaveBeenCalledWith('user-1');
+    });
+  });
+
   describe('findOne', () => {
     it('calls service.findOne with user id and param', async () => {
       const expected = {

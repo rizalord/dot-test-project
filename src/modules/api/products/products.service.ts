@@ -87,6 +87,17 @@ export class ProductsService {
     };
   }
 
+  async count(userId: string): Promise<ResponseDto<{ total: number }>> {
+    const total = await this.prisma.product.count({
+      where: { user_id: userId },
+    });
+
+    return {
+      message: 'Product count retrieved successfully',
+      data: { total },
+    };
+  }
+
   private async findProductOrThrow(userId: string, id: string) {
     let product: Prisma.ProductGetPayload<{
       include: typeof productInclude;

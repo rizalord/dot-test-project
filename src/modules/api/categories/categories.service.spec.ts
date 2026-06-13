@@ -116,6 +116,22 @@ describe('CategoriesService', () => {
     });
   });
 
+  describe('count', () => {
+    it('returns total count', async () => {
+      prisma.category.count.mockResolvedValue(5);
+
+      const result = await service.count(userId);
+
+      expect(prisma.category.count).toHaveBeenCalledWith({
+        where: { user_id: userId },
+      });
+      expect(result).toEqual({
+        message: 'Category count retrieved successfully',
+        data: { total: 5 },
+      });
+    });
+  });
+
   describe('findOne', () => {
     it('returns category when found', async () => {
       prisma.category.findFirst.mockResolvedValue(baseCategory);
