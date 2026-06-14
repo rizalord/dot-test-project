@@ -4,17 +4,13 @@ A full-featured admin panel for managing products and categories, built with Nes
 
 ## Screenshots
 
-| Page | Screenshot |
-|---|---|
-| Dashboard | ![Dashboard](docs/screenshots/dashboard.png) |
-| Products | ![Products](docs/screenshots/products.png) |
-| Create Product | ![Create Product](docs/screenshots/create-product.png) |
-| Edit Product | ![Edit Product](docs/screenshots/edit-product.png) |
-| Categories | ![Categories](docs/screenshots/categories.png) |
-| Create Category | ![Create Category](docs/screenshots/create-category.png) |
-| Edit Category | ![Edit Category](docs/screenshots/edit-category.png) |
-| Login | ![Login](docs/screenshots/login.png) |
-| Register | ![Register](docs/screenshots/register.png) |
+| Page | Screenshot | Page | Screenshot |
+|---|---|---|---|
+| Dashboard | ![Dashboard](docs/screenshots/dashboard.png) | Products | ![Products](docs/screenshots/products.png) |
+| Create Product | ![Create Product](docs/screenshots/create-product.png) | Edit Product | ![Edit Product](docs/screenshots/edit-product.png) |
+| Categories | ![Categories](docs/screenshots/categories.png) | Create Category | ![Create Category](docs/screenshots/create-category.png) |
+| Edit Category | ![Edit Category](docs/screenshots/edit-category.png) | Login | ![Login](docs/screenshots/login.png) |
+| Register | ![Register](docs/screenshots/register.png) | | |
 
 ## Features
 
@@ -99,6 +95,9 @@ cp .env.example .env
 
 # 2. Start the app
 docker compose -f docker-compose.prod.yml up -d --build
+
+# 3. Run database migrations
+docker compose -f docker-compose.prod.yml exec app npm run db:migrate:deploy
 ```
 
 ## Database
