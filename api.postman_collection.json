@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "e6ebe2a1-47c4-4d68-b035-3a4f085ad5b3",
     "name": "DOT Test Project API",
-    "description": "API Collection for DOT Test Project\n\nBase URL: http://localhost:3002/api",
+    "description": "API Collection for DOT Test Project\n\nBase URL: http://localhost:3000/api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "8647915",
     "_collection_link": "https://go.postman.co/collection/8647915-e6ebe2a1-47c4-4d68-b035-3a4f085ad5b3?source=collection_link"
@@ -2054,7 +2054,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:3002/api"
+      "value": "http://localhost:3000/api"
     },
     {
       "key": "access_token",
