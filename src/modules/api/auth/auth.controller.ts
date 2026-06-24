@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import { LoginRequestDto } from './dto/login-request.dto';
+import { RefreshRequestDto } from './dto/refresh-request.dto';
 import { JwtAuthGuard } from './strategy/jwt-auth.guard';
 import type { ResponseDto } from '../../../common/dto/response.dto';
 import type {
@@ -34,6 +35,14 @@ export class AuthController {
   @HttpCode(200)
   login(@Body() dto: LoginRequestDto): Promise<ResponseDto<AuthTokenResource>> {
     return this.authService.login(dto);
+  }
+
+  @Post('refresh')
+  @HttpCode(200)
+  refresh(
+    @Body() dto: RefreshRequestDto,
+  ): Promise<ResponseDto<AuthTokenResource>> {
+    return this.authService.refresh(dto);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -18,7 +18,14 @@ export interface AuthUserResource {
   updated_at: Date;
 }
 
+export interface RefreshTokenPayload {
+  sub: string;
+  email: string;
+  name: string;
+}
+
 export interface AuthTokenResource {
   user: AuthUserResource;
   access_token: string;
+  refresh_token: string;
 }

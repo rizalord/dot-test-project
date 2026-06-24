@@ -3,27 +3,44 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { Prisma } from '../../../generated/prisma/client';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import { LoginRequestDto } from './dto/login-request.dto';
+import { RefreshRequestDto } from './dto/refresh-request.dto';
 import { ResponseDto } from '../../../common/dto/response.dto';
 import {
   AuthTokenResource,
   AuthUserResource,
   JwtPayload,
+  RefreshTokenPayload,
 } from './types/auth.types';
 
 @Injectable()
 export class AuthService {
   private static readonly BCRYPT_SALT_ROUNDS = 10;
+  private readonly refreshSecret: string;
+  private readonly refreshExpiresIn: string;
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const secret = this.configService.get<string>('jwt.refreshSecret');
+    const expiresIn =
+      this.configService.get<string>('jwt.refreshExpiresIn') ?? '7d';
+
+    if (!secret) {
+      throw new Error('JWT_REFRESH_SECRET is not configured');
+    }
+
+    this.refreshSecret = secret;
+    this.refreshExpiresIn = expiresIn;
+  }
 
   async register(
     dto: RegisterRequestDto,
@@ -75,6 +92,32 @@ export class AuthService {
     };
   }
 
+  async refresh(
+    dto: RefreshRequestDto,
+  ): Promise<ResponseDto<AuthTokenResource>> {
+    let payload: RefreshTokenPayload;
+    try {
+      payload = this.jwtService.verify<RefreshTokenPayload>(dto.refresh_token, {
+        secret: this.refreshSecret,
+      });
+    } catch {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return {
+      message: 'Token refreshed successfully',
+      data: this.buildTokenResponse(user),
+    };
+  }
+
   async me(userId: string): Promise<ResponseDto<AuthUserResource>> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -114,6 +157,10 @@ export class AuthService {
         updated_at: user.updated_at,
       },
       access_token: this.jwtService.sign(payload),
+      refresh_token: this.jwtService.sign(payload, {
+        secret: this.refreshSecret,
+        expiresIn: this.refreshExpiresIn,
+      }),
     };
   }
 }

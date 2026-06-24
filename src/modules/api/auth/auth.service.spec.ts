@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -23,7 +24,8 @@ describe('AuthService', () => {
       create: jest.Mock;
     };
   };
-  let jwt: { sign: jest.Mock };
+  let jwt: { sign: jest.Mock; verify: jest.Mock };
+  let config: { get: jest.Mock };
 
   const now = new Date('2026-01-01T00:00:00.000Z');
   const baseUser = {
@@ -42,13 +44,24 @@ describe('AuthService', () => {
         create: jest.fn(),
       },
     };
-    jwt = { sign: jest.fn().mockReturnValue('signed.jwt.token') };
+    jwt = {
+      sign: jest.fn().mockReturnValue('signed.jwt.token'),
+      verify: jest.fn(),
+    };
+    config = {
+      get: jest.fn((key: string) => {
+        if (key === 'jwt.refreshSecret') return 'refresh-secret';
+        if (key === 'jwt.refreshExpiresIn') return '7d';
+        return undefined;
+      }),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: PrismaService, useValue: prisma },
         { provide: JwtService, useValue: jwt },
+        { provide: ConfigService, useValue: config },
       ],
     }).compile();
 
@@ -98,6 +111,7 @@ describe('AuthService', () => {
             updated_at: baseUser.updated_at,
           },
           access_token: 'signed.jwt.token',
+          refresh_token: 'signed.jwt.token',
         },
       });
     });
@@ -131,7 +145,73 @@ describe('AuthService', () => {
       });
 
       expect(result.data.access_token).toBe('signed.jwt.token');
+      expect(result.data.refresh_token).toBe('signed.jwt.token');
       expect(result.data.user.email).toBe(baseUser.email);
+    });
+  });
+
+  describe('refresh', () => {
+    it('throws when refresh secret not configured', async () => {
+      const badConfig = {
+        get: jest.fn((key: string) => {
+          if (key === 'jwt.refreshSecret') return undefined;
+          if (key === 'jwt.refreshExpiresIn') return '7d';
+          return undefined;
+        }),
+      };
+
+      await expect(
+        Test.createTestingModule({
+          providers: [
+            AuthService,
+            { provide: PrismaService, useValue: prisma },
+            { provide: JwtService, useValue: jwt },
+            { provide: ConfigService, useValue: badConfig },
+          ],
+        }).compile(),
+      ).rejects.toThrow('JWT_REFRESH_SECRET is not configured');
+    });
+
+    it('throws UnauthorizedException when refresh token is invalid', async () => {
+      jwt.verify.mockImplementation(() => {
+        throw new Error('invalid token');
+      });
+
+      await expect(
+        service.refresh({ refresh_token: 'bad-token' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('throws UnauthorizedException when user not found', async () => {
+      jwt.verify.mockReturnValue({
+        sub: 'missing-id',
+        email: 'a@a.com',
+        name: 'A',
+      });
+      prisma.user.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.refresh({ refresh_token: 'valid-token' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('returns new token pair on valid refresh token', async () => {
+      jwt.verify.mockReturnValue({
+        sub: baseUser.id,
+        email: baseUser.email,
+        name: baseUser.name,
+      });
+      prisma.user.findUnique.mockResolvedValue(baseUser);
+
+      const result = await service.refresh({ refresh_token: 'valid-token' });
+
+      expect(result.message).toBe('Token refreshed successfully');
+      expect(result.data.access_token).toBe('signed.jwt.token');
+      expect(result.data.refresh_token).toBe('signed.jwt.token');
+      expect(result.data.user.id).toBe(baseUser.id);
+      expect(jwt.verify).toHaveBeenCalledWith('valid-token', {
+        secret: 'refresh-secret',
+      });
     });
   });
 

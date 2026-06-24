@@ -113,7 +113,7 @@ const Auth = (() => {
         });
 
         const result = await authFn(data);
-        API.setToken(result.data.access_token);
+        API.setTokens(result.data);
         window.location.href = '/dashboard';
       } catch (err) {
         if (errorDiv) {
@@ -137,10 +137,14 @@ const Auth = (() => {
     toggleDropdown,
     redirectIfGuest,
     redirectIfAuthenticated,
-    handleLogin: () => handleForm('login-form', (d) => API.login(d.email, d.password)),
-    handleRegister: () => handleForm('register-form', (d) => API.register(d.name, d.email, d.password)),
+    handleLogin: () =>
+      handleForm('login-form', (d) => API.login(d.email, d.password)),
+    handleRegister: () =>
+      handleForm('register-form', (d) =>
+        API.register(d.name, d.email, d.password),
+      ),
     logout: () => {
-      API.clearToken();
+      API.clearTokens();
       window.location.href = '/login';
     },
   };

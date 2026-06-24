@@ -1,16 +1,26 @@
 const API = (() => {
   const BASE_URL = '/api/v1';
+  let isRefreshing = false;
+  let refreshSubscribers = [];
 
   function getToken() {
     return localStorage.getItem('access_token');
   }
 
-  function setToken(token) {
-    localStorage.setItem('access_token', token);
+  function getRefreshToken() {
+    return localStorage.getItem('refresh_token');
   }
 
-  function clearToken() {
+  function setTokens(data) {
+    localStorage.setItem('access_token', data.access_token);
+    if (data.refresh_token) {
+      localStorage.setItem('refresh_token', data.refresh_token);
+    }
+  }
+
+  function clearTokens() {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 
   function decodeToken(token) {
@@ -28,21 +38,66 @@ const API = (() => {
     return Date.now() >= decoded.exp * 1000;
   }
 
+  async function refreshAccessToken() {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) throw new Error('No refresh token');
+
+    const res = await fetch(`${BASE_URL}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refresh_token: refreshToken }),
+    });
+
+    if (!res.ok) {
+      clearTokens();
+      throw new Error('Refresh failed');
+    }
+
+    const data = await res.json();
+    setTokens(data.data);
+    return data.data.access_token;
+  }
+
+  function onRefreshed(newToken) {
+    refreshSubscribers.forEach((cb) => cb(newToken));
+    refreshSubscribers = [];
+  }
+
   async function apiFetch(endpoint, options = {}) {
     const token = getToken();
     const headers = { 'Content-Type': 'application/json', ...options.headers };
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+    let res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
 
-    if (res.status === 401) {
+    if (res.status === 401 && !options._retry) {
       if (endpoint === '/auth/login' || endpoint === '/auth/register') {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message || 'Invalid credentials');
       }
-      clearToken();
-      window.location.href = '/login';
-      throw new Error('Session expired. Please login again.');
+
+      if (isRefreshing) {
+        const newToken = await new Promise((resolve) => {
+          refreshSubscribers.push(resolve);
+        });
+        headers['Authorization'] = `Bearer ${newToken}`;
+        res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+      } else {
+        isRefreshing = true;
+        try {
+          const newToken = await refreshAccessToken();
+          onRefreshed(newToken);
+          options._retry = true;
+          headers['Authorization'] = `Bearer ${newToken}`;
+          res = await fetch(`${BASE_URL}${endpoint}`, { ...options, headers });
+        } catch {
+          clearTokens();
+          window.location.href = '/login';
+          throw new Error('Session expired. Please login again.');
+        } finally {
+          isRefreshing = false;
+        }
+      }
     }
 
     const data = await res.json();
@@ -53,8 +108,8 @@ const API = (() => {
 
   return {
     getToken,
-    setToken,
-    clearToken,
+    setTokens,
+    clearTokens,
     decodeToken,
     isTokenExpired,
     apiFetch,
