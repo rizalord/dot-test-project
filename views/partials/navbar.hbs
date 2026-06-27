@@ -1,12 +1,12 @@
 <nav class="nav-bar">
     <div class="nav-inner">
-        <span class="nav-logo">Admin Panel</span>
+        <span class="nav-logo">Product Management System</span>
 
         {{!-- Desktop nav links --}}
         <div class="nav-links-desktop">
             <a href="/">Dashboard</a>
-            <a href="/users">Users</a>
-            <a href="/settings">Settings</a>
+            <a href="/products">Products</a>
+            <a href="/categories">Categories</a>
         </div>
 
         {{!-- Right section: avatar + hamburger --}}
@@ -14,8 +14,6 @@
             <div class="nav-avatar-wrap">
                 <div id="avatar-btn" class="avatar" role="button" tabindex="0">{{user.initial}}</div>
                 <div id="avatar-dropdown" class="avatar-dropdown">
-                    <a href="/profile">Profile</a>
-                    <div class="dropdown-divider"></div>
                     <a href="/auth/logout" class="text-red">Logout</a>
                 </div>
             </div>
@@ -35,8 +33,8 @@
     <div id="mobile-menu" class="nav-links-mobile" style="display:none">
         <div class="nav-inner" style="flex-direction:column;align-items:stretch;padding-top:0;padding-bottom:0">
             <a href="/">Dashboard</a>
-            <a href="/users">Users</a>
-            <a href="/settings">Settings</a>
+            <a href="/products">Products</a>
+            <a href="/categories">Categories</a>
             <div class="nav-user-mobile">
                 <div style="display:flex;align-items:center;gap:.75rem;width:100%;padding:.5rem .75rem">
                     <div class="avatar" style="width:2rem;height:2rem;font-size:.75rem;cursor:default">{{user.initial}}</div>

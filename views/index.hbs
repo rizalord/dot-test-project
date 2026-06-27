@@ -12,20 +12,12 @@
         {{!-- Stats Cards --}}
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>Total Users</h3>
-                <p>1,234</p>
+                <h3>Total Products</h3>
+                <p>{{productCount}}</p>
             </div>
             <div class="stat-card">
-                <h3>Active Now</h3>
-                <p>56</p>
-            </div>
-            <div class="stat-card">
-                <h3>Revenue</h3>
-                <p>$12.4k</p>
-            </div>
-            <div class="stat-card">
-                <h3>Orders</h3>
-                <p>348</p>
+                <h3>Total Categories</h3>
+                <p>{{categoryCount}}</p>
             </div>
         </div>
 
@@ -33,6 +25,32 @@
         <div class="card">
             <h1>Dashboard</h1>
             <p>{{ message }}</p>
+        </div>
+
+        {{!-- Action Navigation --}}
+        <div class="action-grid">
+            <a href="/products" class="action-card">
+                <div class="action-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                </div>
+                <div>
+                    <h3>Manage Products</h3>
+                    <p>Create, edit, and manage your product catalog</p>
+                </div>
+            </a>
+            <a href="/categories" class="action-card">
+                <div class="action-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                </div>
+                <div>
+                    <h3>Manage Categories</h3>
+                    <p>Organize products with categories</p>
+                </div>
+            </a>
         </div>
     </main>
 

@@ -8,7 +8,10 @@
     body { font-family: system-ui, -apple-system, sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
     .nav-bar { background: #4338ca; color: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); }
     .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; height: 4rem; }
-    .nav-logo { font-size: 1.5rem; font-weight: 700; }
+    .nav-logo { font-size: 1.25rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 480px) {
+        .nav-logo { font-size: 1rem; max-width: 160px; }
+    }
     .nav-links-desktop { display: none; }
     .nav-links-desktop a { color: #fff; padding: .5rem .75rem; border-radius: .375rem; font-size: .875rem; text-decoration: none; }
     .nav-links-desktop a:hover { background: #4f46e5; }
@@ -53,8 +56,16 @@
         .nav-inner { padding: 0 2rem; }
         main { padding: 2rem 2rem; }
     }
+    .action-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+    .action-card { display: flex; align-items: center; gap: 1rem; background: #fff; border-radius: .5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 1.5rem; text-decoration: none; transition: box-shadow .2s, transform .15s; }
+    .action-card:hover { box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); transform: translateY(-1px); }
+    .action-card h3 { font-size: 1rem; font-weight: 600; color: #1f2937; margin-bottom: .25rem; }
+    .action-card p { font-size: .875rem; color: #6b7280; }
+    .action-icon { width: 3rem; height: 3rem; background: #eef2ff; border-radius: .75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .action-icon svg { width: 1.5rem; height: 1.5rem; color: #4f46e5; }
+
     @media (min-width: 1024px) {
-        .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        .action-grid { grid-template-columns: repeat(2, 1fr); }
         .nav-inner { padding: 0 2rem; }
         main { padding: 2rem 2rem; }
     }

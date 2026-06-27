@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 import configFn, { Config } from './config'
-import * as hbs from 'hbs'
+import { registerHbsHelpers, registerHbsPartials } from './helpers/hbs'
 import cookieParser = require('cookie-parser')
 
 async function bootstrap() {
@@ -16,7 +16,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', '..', 'views'))
   app.setViewEngine('hbs')
 
-  hbs.registerPartials(join(__dirname, '..', '..', 'views', 'partials'))
+  registerHbsPartials(join(__dirname, '..', '..', 'views'))
+  registerHbsHelpers()
 
   const cfg = configFn()
   await app.listen(cfg.port)
