@@ -1,0 +1,61 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{{title}}</title>
+<script src="https://cdn.tailwindcss.com"></script>
+{{!-- Fallback critical CSS in case CDN is slow --}}
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; flex-direction: column; }
+    .nav-bar { background: #4338ca; color: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .nav-logo { font-size: 1.5rem; font-weight: 700; }
+    .nav-links-desktop { display: none; }
+    .nav-links-desktop a { color: #fff; padding: .5rem .75rem; border-radius: .375rem; font-size: .875rem; text-decoration: none; }
+    .nav-links-desktop a:hover { background: #4f46e5; }
+    .nav-actions { display: flex; align-items: center; gap: .5rem; }
+    .nav-avatar-wrap { position: relative; }
+    .hamburger { display: block; padding: .5rem; border-radius: .375rem; background: none; border: none; color: #fff; cursor: pointer; }
+    .hamburger:hover { background: #4f46e5; }
+    .hamburger svg { width: 1.5rem; height: 1.5rem; }
+    .nav-links-mobile { display: none; padding-bottom: 1rem; }
+    .nav-links-mobile.open { display: block; }
+    .nav-links-mobile a { display: block; color: #fff; padding: .5rem .75rem; border-radius: .375rem; font-size: .875rem; text-decoration: none; }
+    .nav-links-mobile a:hover { background: #4f46e5; }
+    .nav-user-mobile { padding: .5rem .75rem; margin-top: .5rem; border-top: 1px solid #6366f1; display: flex; flex-direction: column; gap: .25rem; }
+    .mobile-link { display: block; color: #fff; padding: .5rem .75rem; border-radius: .375rem; font-size: .875rem; text-decoration: none; }
+    .mobile-link:hover { background: #4f46e5; }
+    .mobile-link.text-red { color: #fca5a5; }
+    .avatar { width: 2.25rem; height: 2.25rem; border-radius: 9999px; background: #a5b4fc; color: #1e1b4b; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .875rem; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
+    .avatar:hover, .avatar:focus-visible { border-color: #fff; outline: none; }
+    .avatar-dropdown { position: absolute; right: 0; top: calc(100% + .75rem); background: #fff; border-radius: .5rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,.15); min-width: 160px; display: none; z-index: 50; overflow: hidden; }
+    .avatar-dropdown.open { display: block; }
+    .avatar-dropdown a { display: flex; align-items: center; gap: .5rem; padding: .75rem 1rem; color: #374151; font-size: .875rem; text-decoration: none; transition: background .15s; }
+    .avatar-dropdown a:hover { background: #f3f4f6; }
+    .avatar-dropdown .dropdown-divider { height: 1px; background: #e5e7eb; margin: 0; }
+    .avatar-dropdown .text-red { color: #dc2626; }
+    main { flex: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding: 2rem 1rem; }
+    .card { background: #fff; border-radius: .5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,.1); padding: 1.5rem; }
+    .card h1 { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+    .card p { color: #4b5563; }
+    footer { background: #1f2937; color: #9ca3af; padding: 1.5rem 0; text-align: center; margin-top: auto; }
+    footer p { font-size: .875rem; }
+    .stats-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: #fff; border-radius: .5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 1.5rem; }
+    .stat-card h3 { font-size: .875rem; font-weight: 500; color: #6b7280; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-card p { font-size: 1.875rem; font-weight: 700; color: #1f2937; margin-top: .25rem; }
+
+    @media (min-width: 768px) {
+        .nav-links-desktop { display: flex; align-items: center; gap: 1rem; }
+        .nav-actions { border-left: 1px solid #6366f1; padding-left: 1rem; margin-left: .5rem; }
+        .hamburger { display: none; }
+        .nav-links-mobile { display: none !important; }
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .nav-inner { padding: 0 2rem; }
+        main { padding: 2rem 2rem; }
+    }
+    @media (min-width: 1024px) {
+        .stats-grid { grid-template-columns: repeat(4, 1fr); }
+        .nav-inner { padding: 0 2rem; }
+        main { padding: 2rem 2rem; }
+    }
+</style>

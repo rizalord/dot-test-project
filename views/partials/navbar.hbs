@@ -1,0 +1,78 @@
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <span class="nav-logo">Admin Panel</span>
+
+        {{!-- Desktop nav links --}}
+        <div class="nav-links-desktop">
+            <a href="/">Dashboard</a>
+            <a href="/users">Users</a>
+            <a href="/settings">Settings</a>
+        </div>
+
+        {{!-- Right section: avatar + hamburger --}}
+        <div class="nav-actions">
+            <div class="nav-avatar-wrap">
+                <div id="avatar-btn" class="avatar" role="button" tabindex="0">A</div>
+                <div id="avatar-dropdown" class="avatar-dropdown">
+                    <a href="/profile">Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/logout" class="text-red">Logout</a>
+                </div>
+            </div>
+
+            <button id="menu-toggle" class="hamburger" aria-label="Toggle menu">
+                <svg id="menu-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <svg id="menu-icon-close" style="display:none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    {{!-- Mobile menu --}}
+    <div id="mobile-menu" class="nav-links-mobile" style="display:none">
+        <div class="nav-inner" style="flex-direction:column;align-items:stretch;padding-top:0;padding-bottom:0">
+            <a href="/">Dashboard</a>
+            <a href="/users">Users</a>
+            <a href="/settings">Settings</a>
+            <div class="nav-user-mobile">
+                <a href="/profile" class="mobile-link">Profile</a>
+                <a href="/logout" class="mobile-link text-red">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+(function() {
+    var toggle = document.getElementById('menu-toggle');
+    var menu = document.getElementById('mobile-menu');
+    var iconOpen = document.getElementById('menu-icon-open');
+    var iconClose = document.getElementById('menu-icon-close');
+    if (toggle && menu) {
+        toggle.addEventListener('click', function() {
+            var isOpen = menu.style.display !== 'none';
+            menu.style.display = isOpen ? 'none' : 'block';
+            iconOpen.style.display = isOpen ? 'block' : 'none';
+            iconClose.style.display = isOpen ? 'none' : 'block';
+        });
+    }
+
+    var avatarBtn = document.getElementById('avatar-btn');
+    var avatarDropdown = document.getElementById('avatar-dropdown');
+    if (avatarBtn && avatarDropdown) {
+        avatarBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            avatarDropdown.classList.toggle('open');
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (avatarDropdown && !avatarBtn.contains(e.target) && !avatarDropdown.contains(e.target)) {
+            avatarDropdown.classList.remove('open');
+        }
+    });
+})();
+</script>

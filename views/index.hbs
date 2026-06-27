@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {{> head}}
+</head>
+
+<body>
+    {{> navbar}}
+
+    <main>
+        {{!-- Stats Cards --}}
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p>1,234</p>
+            </div>
+            <div class="stat-card">
+                <h3>Active Now</h3>
+                <p>56</p>
+            </div>
+            <div class="stat-card">
+                <h3>Revenue</h3>
+                <p>$12.4k</p>
+            </div>
+            <div class="stat-card">
+                <h3>Orders</h3>
+                <p>348</p>
+            </div>
+        </div>
+
+        {{!-- Main Content Card --}}
+        <div class="card">
+            <h1>Dashboard</h1>
+            <p>{{ message }}</p>
+        </div>
+    </main>
+
+    {{> footer}}
+</body>
+
+</html>
