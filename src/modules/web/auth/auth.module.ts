@@ -1,12 +1,9 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './../../api/auth/auth.service';
-import { AuthController } from './auth.controller';
-import { PassportModule } from '@nestjs/passport'
-import { LocalStrategy } from './strategy/local.strategy'
+import { Module } from '@nestjs/common'
+import { AuthController } from './auth.controller'
+import { AuthModule as ApiAuthModule } from '../../api/auth/auth.module'
 
 @Module({
-  imports: [PassportModule],
+  imports: [ApiAuthModule],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
 })
 export class AuthModule {}

@@ -1,76 +1,75 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Render, BadRequestException, UseGuards, Request } from '@nestjs/common'
-import { AuthService } from './../../api/auth/auth.service'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Render,
+  Res,
+} from '@nestjs/common'
+import { AuthService } from '../../api/auth/auth.service'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
-import { LocalAuthGuard } from './strategy/local-auth.guard'
+import { Response } from 'express'
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
-  @Get('auth/register')
+  @Get('register')
   @Render('auth/register')
   async registerForm() {
-    return {
-      status: null,
-      message: null,
-    }
+    return { title: 'Register', error: null }
   }
 
-  @Post('auth/register')
+  @Post('register')
   @Render('auth/register')
-  async register(@Body() registerDto: RegisterDto) {
-    if (registerDto.password !== registerDto.confirmPassword) {
-      throw new BadRequestException('Password and confirm password do not match')
+  async register(@Body() dto: RegisterDto) {
+    if (dto.password !== dto.confirmPassword) {
+      return { title: 'Register', error: 'Password and confirm password do not match' }
     }
 
     try {
-      const result = await this.authService.register(registerDto)
-      return {
-        status: true,
-        message: 'Registration successful'
-      }
+      await this.authService.register(dto)
+      return { title: 'Register', success: 'Registration successful! Please login.' }
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Registration failed'
       return {
-        status: false,
-        message
+        title: 'Register',
+        error: error instanceof Error ? error.message : 'Registration failed',
       }
     }
   }
 
-  @Get('auth/login')
+  @Get('login')
   @Render('auth/login')
   async loginForm() {
-    return {
-      status: null,
-      message: null,
-    }
+    return { title: 'Login', error: null }
   }
 
-  @Post('auth/login')
-  @UseGuards(LocalAuthGuard)
-  @Render('auth/login')
-  async login(@Body() loginDto: LoginDto) {
+  @Post('login')
+  async login(@Body() dto: LoginDto, @Res() res: Response) {
     try {
-      const result = await this.authService.login(loginDto)
-      return {
-        status: true,
-        message: 'Login successful'
-      }
+      const result = await this.authService.login(dto)
+
+      res.cookie('token', result.data.access_token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 15 * 60 * 1000,
+      })
+
+      return res.redirect('/')
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Login failed'
-      return {
-        status: false,
-        message
-      }
+      return res.render('auth/login', {
+        title: 'Login',
+        error: error instanceof Error ? error.message : 'Login failed',
+      })
     }
   }
 
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/logout')
-  async logout(@Request() req) {
-    return req.logout()
+  @Get('logout')
+  @Post('logout')
+  async logout(@Res() res: Response) {
+    res.clearCookie('token')
+    res.clearCookie('refresh_token')
+    return res.redirect('/auth/login')
   }
-
 }

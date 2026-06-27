@@ -12,11 +12,11 @@
         {{!-- Right section: avatar + hamburger --}}
         <div class="nav-actions">
             <div class="nav-avatar-wrap">
-                <div id="avatar-btn" class="avatar" role="button" tabindex="0">A</div>
+                <div id="avatar-btn" class="avatar" role="button" tabindex="0">{{user.initial}}</div>
                 <div id="avatar-dropdown" class="avatar-dropdown">
                     <a href="/profile">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a href="/logout" class="text-red">Logout</a>
+                    <a href="/auth/logout" class="text-red">Logout</a>
                 </div>
             </div>
 
@@ -38,8 +38,11 @@
             <a href="/users">Users</a>
             <a href="/settings">Settings</a>
             <div class="nav-user-mobile">
-                <a href="/profile" class="mobile-link">Profile</a>
-                <a href="/logout" class="mobile-link text-red">Logout</a>
+                <div style="display:flex;align-items:center;gap:.75rem;width:100%;padding:.5rem .75rem">
+                    <div class="avatar" style="width:2rem;height:2rem;font-size:.75rem;cursor:default">{{user.initial}}</div>
+                    <span style="flex:1;color:#fff;font-size:.875rem">{{user.name}}</span>
+                    <a href="/auth/logout" style="color:#fca5a5;text-decoration:none;font-size:.875rem;font-weight:500">Logout</a>
+                </div>
             </div>
         </div>
     </div>
