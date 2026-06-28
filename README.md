@@ -1,4 +1,4 @@
-# Product Management System
+# DOT Fullstack Challenge - Admin Panel
 
 A full-featured admin panel for managing products and categories, built with NestJS, Prisma, and PostgreSQL.
 
@@ -6,11 +6,11 @@ A full-featured admin panel for managing products and categories, built with Nes
 
 | Page | Screenshot | Page | Screenshot |
 |---|---|---|---|
+| Register | ![Register](docs/screenshots/register.png) | Login | ![Login](docs/screenshots/login.png) |
 | Dashboard | ![Dashboard](docs/screenshots/dashboard.png) | Products | ![Products](docs/screenshots/products.png) |
 | Create Product | ![Create Product](docs/screenshots/create-product.png) | Edit Product | ![Edit Product](docs/screenshots/edit-product.png) |
 | Categories | ![Categories](docs/screenshots/categories.png) | Create Category | ![Create Category](docs/screenshots/create-category.png) |
-| Edit Category | ![Edit Category](docs/screenshots/edit-category.png) | Login | ![Login](docs/screenshots/login.png) |
-| Register | ![Register](docs/screenshots/register.png) | | |
+| Edit Category | ![Edit Category](docs/screenshots/edit-category.png) | | |
 
 ## Features
 
@@ -29,6 +29,41 @@ A full-featured admin panel for managing products and categories, built with Nes
 | Database | PostgreSQL 18 |
 | Frontend | Server-side rendered Handlebars + Tailwind CSS CDN |
 | Auth | JWT (JSON Web Tokens) with Passport |
+
+## Dependencies
+
+### Runtime
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/common` | ^11.0.1 | NestJS core decorators, guards, pipes, and utilities |
+| `@nestjs/core` | ^11.0.1 | NestJS application framework |
+| `@nestjs/config` | ^4.0.4 | Environment-based configuration management |
+| `@nestjs/jwt` | ^11.0.2 | JWT token generation and validation |
+| `@nestjs/passport` | ^11.0.5 | Passport authentication integration for NestJS |
+| `@nestjs/platform-express` | ^11.0.1 | Express HTTP adapter for NestJS |
+| `@prisma/client` / `@prisma/adapter-pg` | ^7.8.0 | Prisma ORM client with PostgreSQL adapter |
+| `prisma` | ^7.8.0 | Prisma CLI and schema management |
+| `bcrypt` | ^6.0.0 | Password hashing |
+| `class-transformer` | ^0.5.1 | Object-to-class serialization/deserialization |
+| `class-validator` | ^0.15.1 | Decorator-based input validation |
+| `passport` / `passport-jwt` | ^0.7.0 / ^4.0.1 | JWT authentication strategy |
+| `pg` | ^8.21.0 | PostgreSQL native driver |
+| `express-handlebars` | ^9.0.1 | Handlebars view engine for server-side rendering |
+| `hbs` | ^4.2.1 | Express Handlebars adapter |
+| `reflect-metadata` | ^0.2.2 | TypeScript decorator metadata polyfill |
+| `rxjs` | ^7.8.1 | Reactive extensions for async operations |
+
+### Dev / Build
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/cli` | ^11.0.0 | NestJS CLI for code generation and build |
+| `typescript` | ^5.7.3 | TypeScript compiler |
+| `ts-jest` / `jest` | ^30.0.0 | TypeScript-aware unit testing |
+| `supertest` | ^7.0.0 | HTTP integration testing |
+| `eslint` / `prettier` | ^9.x / ^3.4.2 | Code linting and formatting |
+| `ts-loader` | ^9.5.2 | Webpack TypeScript loader (NestJS build) |
 
 ## Project Structure
 
@@ -70,7 +105,7 @@ views/
 
 ```bash
 # 1. Clone and enter the project
-git clone <repo-url> && cd dot-test-project
+git clone https://github.com/rizalord/dot-test-project.git && cd dot-test-project
 
 # 2. Install dependencies
 npm install
@@ -78,15 +113,8 @@ npm install
 # 3. Start PostgreSQL via Docker
 docker compose up -d
 
-# 4. Create .env file
-cat > .env << EOF
-PORT=3000
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/adminpanel?schema=public"
-JWT_SECRET="your-super-secret-jwt-key-change-this"
-JWT_EXPIRES_IN="15m"
-JWT_REFRESH_SECRET="your-super-secret-jwt-refresh-key-change-this"
-JWT_REFRESH_EXPIRES_IN="7d"
-EOF
+# 4. Copy environment file
+cp .env.example .env
 
 # 5. Run database migrations
 npm run db:migrate
