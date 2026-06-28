@@ -1,4 +1,4 @@
-# DOT Fullstack Challenge - Admin Panel
+# Product Management System
 
 A full-featured admin panel for managing products and categories, built with NestJS, Prisma, and PostgreSQL.
 
@@ -14,90 +14,129 @@ A full-featured admin panel for managing products and categories, built with Nes
 
 ## Features
 
-- **Authentication** — Register, login, and session management with JWT
-- **Products** — Create, read, update, and delete products with pricing and category assignments
-- **Categories** — Create, read, update, and delete categories
-- **Dashboard** — Overview counts for products and categories
-- **Responsive UI** — Tailwind CSS with mobile-friendly layout
+- **Authentication** — Register, login, and session management with JWT (httpOnly cookies)
+- **Products** — Full CRUD with price (Rupiah) and multi-category assignment
+- **Categories** — Full CRUD for organizing products
+- **Dashboard** — Real-time product and category counts with action navigation
+- **Responsive UI** — Tailwind CSS with mobile-friendly layout and navbar
 
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Backend | [NestJS](https://nestjs.com/) (Node.js) |
-| ORM | [Prisma](https://www.prisma.io/) |
-| Database | PostgreSQL |
-| Frontend | Server-side rendered Handlebars + Tailwind CSS |
-| Auth | JWT (JSON Web Tokens) |
+| Backend | [NestJS](https://nestjs.com/) (Node.js 22) |
+| ORM | [Prisma](https://www.prisma.io/) 7.x |
+| Database | PostgreSQL 18 |
+| Frontend | Server-side rendered Handlebars + Tailwind CSS CDN |
+| Auth | JWT (JSON Web Tokens) with Passport |
 
-## Dependencies
+## Project Structure
 
-### Runtime
-
-| Package | Version | Purpose |
-|---|---|---|
-| `@nestjs/common` | ^11.0.1 | NestJS core decorators, guards, pipes, and utilities |
-| `@nestjs/core` | ^11.0.1 | NestJS application framework |
-| `@nestjs/config` | ^4.0.4 | Environment-based configuration management |
-| `@nestjs/jwt` | ^11.0.2 | JWT token generation and validation |
-| `@nestjs/passport` | ^11.0.5 | Passport authentication integration for NestJS |
-| `@nestjs/platform-express` | ^11.0.1 | Express HTTP adapter for NestJS |
-| `@prisma/client` / `@prisma/adapter-pg` | ^7.8.0 | Prisma ORM client with PostgreSQL adapter |
-| `prisma` | ^7.8.0 | Prisma CLI and schema management |
-| `bcrypt` | ^6.0.0 | Password hashing |
-| `class-transformer` | ^0.5.1 | Object-to-class serialization/deserialization |
-| `class-validator` | ^0.15.1 | Decorator-based input validation |
-| `passport` / `passport-jwt` | ^0.7.0 / ^4.0.1 | JWT authentication strategy |
-| `pg` | ^8.21.0 | PostgreSQL native driver |
-| `express-handlebars` | ^9.0.1 | Handlebars view engine for server-side rendering |
-| `hbs` | ^4.2.1 | Express Handlebars adapter |
-| `reflect-metadata` | ^0.2.2 | TypeScript decorator metadata polyfill |
-| `rxjs` | ^7.8.1 | Reactive extensions for async operations |
-
-### Dev / Build
-
-| Package | Version | Purpose |
-|---|---|---|
-| `@nestjs/cli` | ^11.0.0 | NestJS CLI for code generation and build |
-| `typescript` | ^5.7.3 | TypeScript compiler |
-| `ts-jest` / `jest` | ^30.0.0 | TypeScript-aware unit testing |
-| `supertest` | ^7.0.0 | HTTP integration testing |
-| `eslint` / `prettier` | ^9.x / ^3.4.2 | Code linting and formatting |
-| `ts-loader` | ^9.5.2 | Webpack TypeScript loader (NestJS build) |
+```
+src/
+├── config/                  # App configuration (port, JWT, database)
+├── helpers/                 # Handlebars helpers
+├── modules/
+│   ├── api/                 # REST API modules (auth, products, categories)
+│   │   ├── auth/            # JWT auth with Passport
+│   │   ├── products/        # Product CRUD with Prisma
+│   │   └── categories/      # Category CRUD with Prisma
+│   ├── web/                 # Server-side rendered web modules
+│   │   ├── auth/            # Login/register/logout views + JwtCookieGuard
+│   │   ├── dashboard/       # Dashboard with stats and navigation
+│   │   ├── products/        # Product management views
+│   │   └── categories/      # Category management views
+│   └── prisma/              # Prisma service
+├── common/                  # Shared DTOs and decorators
+├── main.ts                  # App entry point
+└── app.module.ts            # Root module
+views/
+├── auth/                    # Login and register forms
+├── products/                # Product list and form views
+├── categories/              # Category list and form views
+└── partials/                # Navbar, head, footer partials
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Docker & Docker Compose
+- Node.js 22+
+- npm
+- Docker & Docker Compose (for PostgreSQL)
+- Git
 
-### Development Mode
+### Quick Start (Development)
 
 ```bash
-# 1. Copy environment
-cp .env.example .env
+# 1. Clone and enter the project
+git clone <repo-url> && cd dot-test-project
 
-# 2. Start the app with hot reload
-docker compose up -d --build
+# 2. Install dependencies
+npm install
 
-# 3. Run database migrations
-docker compose exec app npm run db:migrate
+# 3. Start PostgreSQL via Docker
+docker compose up -d
 
-# 4. Open browser
-http://localhost:3000
+# 4. Create .env file
+cat > .env << EOF
+PORT=3000
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/adminpanel?schema=public"
+JWT_SECRET="your-super-secret-jwt-key-change-this"
+JWT_EXPIRES_IN="15m"
+JWT_REFRESH_SECRET="your-super-secret-jwt-refresh-key-change-this"
+JWT_REFRESH_EXPIRES_IN="7d"
+EOF
+
+# 5. Run database migrations
+npm run db:migrate
+
+# 6. Generate Prisma client
+npm run db:generate
+
+# 7. Start the dev server with hot reload
+npm run start:dev
 ```
 
-### Production Mode
+Open [http://localhost:3000](http://localhost:3000) and register a new account.
+
+### Development Mode (detailed)
+
+| Step | Command | Description |
+|---|---|---|
+| Start database | `docker compose up -d` | Runs PostgreSQL 18 in background |
+| Check database | `docker compose ps` | Verify DB container is running |
+| Run migrations | `npm run db:migrate` | Apply schema changes to database |
+| Start app | `npm run start:dev` | Hot-reload dev server on port 3000 |
+| Stop database | `docker compose down` | Stops and removes DB container |
+
+### Production Build
 
 ```bash
-# 1. Copy and configure environment
-cp .env.example .env
+# 1. Build the app
+npm run build
 
-# 2. Start the app
-docker compose -f docker-compose.prod.yml up -d --build
+# 2. Start in production mode
+NODE_ENV=production npm run start:prod
+```
 
-# 3. Run database migrations
-docker compose -f docker-compose.prod.yml exec app npm run db:migrate:deploy
+Or using the included Dockerfile:
+
+```bash
+# Build image
+docker build -t product-management-system .
+
+# Run with a PostgreSQL instance
+docker run -d --name pms-db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=adminpanel \
+  postgres:18-alpine
+
+docker run -d -p 3000:3000 --name pms-app \
+  --link pms-db:db \
+  -e DATABASE_URL="postgresql://postgres:postgres@db:5432/adminpanel?schema=public" \
+  product-management-system
 ```
 
 ## Database
@@ -113,21 +152,24 @@ The database consists of 4 models defined in [prisma/schema.prisma](prisma/schem
 | Model | Description |
 |---|---|
 | `User` | Application users (authentication) |
-| `Category` | Product categories |
-| `Product` | Products with price (stored as BigInt) |
+| `Category` | Product categories (user-scoped) |
+| `Product` | Products with price (stored as BigInt, user-scoped) |
 | `ProductCategory` | Many-to-many relation between Product and Category |
 
 ### Migrations
 
 ```bash
 # Create and apply a new migration
-docker compose exec app npm run db:migrate
+npm run db:migrate
 
 # Create migration only (without applying)
-docker compose exec app npm run db:migrate:create
+npm run db:migrate:create
 
 # Apply pending migrations (production)
-docker compose exec app npm run db:migrate:deploy
+npm run db:migrate:deploy
+
+# Reset database (drops all data)
+npm run db:migrate:reset
 ```
 
 ### Prisma Studio
@@ -135,34 +177,83 @@ docker compose exec app npm run db:migrate:deploy
 Browse and edit data through a GUI:
 
 ```bash
-docker compose exec app npm run db:studio
+npm run db:studio
 ```
+
+Opens at [http://localhost:5555](http://localhost:5555).
 
 ### Generate Prisma Client
 
 After pulling changes that modify the Prisma schema:
 
 ```bash
-docker compose exec app npm run db:generate
+npm run db:generate
 ```
 
-### Environment
+### Environment Variables
 
-Database connection is configured via `DATABASE_URL` in `.env`:
+Copy `.env` from the quickstart section or reference the table below:
 
-```
-DATABASE_URL="postgresql://postgres:postgres@db:5432/adminpanel?schema=public"
-```
+| Variable | Default | Description |
+|---|---|---|
+| `PORT` | `3000` | Application port |
+| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5432/adminpanel?schema=public` | PostgreSQL connection string |
+| `JWT_SECRET` | (required) | Secret key for signing JWT tokens |
+| `JWT_EXPIRES_IN` | `15m` | Access token expiration duration |
+| `JWT_REFRESH_SECRET` | (required) | Secret key for signing refresh tokens |
+| `JWT_REFRESH_EXPIRES_IN` | `7d` | Refresh token expiration duration |
 
 ## Testing
 
 ```bash
 # Unit tests
-docker compose exec app npm run test
-
-# E2E tests
-docker compose exec app npm run test:e2e
+npm run test
 
 # Test coverage
-docker compose exec app npm run test:cov
+npm run test:cov
+
+# E2E tests
+npm run test:e2e
 ```
+
+## API Endpoints
+
+### REST API (prefix: `/api/v1`)
+
+All API endpoints require JWT Bearer token in `Authorization` header.
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/v1/auth/register` | Register a new user |
+| POST | `/api/v1/auth/login` | Login and get JWT tokens |
+| POST | `/api/v1/auth/refresh` | Refresh access token |
+| GET | `/api/v1/auth/me` | Get current user profile |
+| GET | `/api/v1/products` | List products (paginated, searchable) |
+| GET | `/api/v1/products/count` | Get total product count |
+| GET | `/api/v1/products/:id` | Get product by ID |
+| POST | `/api/v1/products` | Create a new product |
+| PUT | `/api/v1/products/:id` | Update a product |
+| DELETE | `/api/v1/products/:id` | Delete a product |
+| GET | `/api/v1/categories` | List categories (paginated, searchable) |
+| GET | `/api/v1/categories/count` | Get total category count |
+| GET | `/api/v1/categories/:id` | Get category by ID |
+| POST | `/api/v1/categories` | Create a new category |
+| PUT | `/api/v1/categories/:id` | Update a category |
+| DELETE | `/api/v1/categories/:id` | Delete a category |
+
+### Web Routes (SSR with Handlebars)
+
+| Method | Route | Description |
+|---|---|---|
+| GET | `/` | Dashboard (protected) |
+| GET/POST | `/auth/login` | Login form |
+| GET/POST | `/auth/register` | Registration form |
+| GET/POST | `/auth/logout` | Logout |
+| GET | `/products` | Product list (protected) |
+| GET/POST | `/products/create` | Create product form (protected) |
+| GET/POST | `/products/:id/edit` | Edit product form (protected) |
+| POST | `/products/:id/delete` | Delete product (protected) |
+| GET | `/categories` | Category list (protected) |
+| GET/POST | `/categories/create` | Create category form (protected) |
+| GET/POST | `/categories/:id/edit` | Edit category form (protected) |
+| POST | `/categories/:id/delete` | Delete category (protected) |
