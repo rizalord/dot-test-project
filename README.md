@@ -1,73 +1,168 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# DOT Fullstack Challenge - Admin Panel
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A full-featured admin panel for managing products and categories, built with NestJS, Prisma, and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Screenshots
 
-## Description
+| Page | Screenshot | Page | Screenshot |
+|---|---|---|---|
+| Dashboard | ![Dashboard](docs/screenshots/dashboard.png) | Products | ![Products](docs/screenshots/products.png) |
+| Create Product | ![Create Product](docs/screenshots/create-product.png) | Edit Product | ![Edit Product](docs/screenshots/edit-product.png) |
+| Categories | ![Categories](docs/screenshots/categories.png) | Create Category | ![Create Category](docs/screenshots/create-category.png) |
+| Edit Category | ![Edit Category](docs/screenshots/edit-category.png) | Login | ![Login](docs/screenshots/login.png) |
+| Register | ![Register](docs/screenshots/register.png) | | |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
 
-## Installation
+- **Authentication** — Register, login, and session management with JWT
+- **Products** — Create, read, update, and delete products with pricing and category assignments
+- **Categories** — Create, read, update, and delete categories
+- **Dashboard** — Overview counts for products and categories
+- **Responsive UI** — Tailwind CSS with mobile-friendly layout
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | [NestJS](https://nestjs.com/) (Node.js) |
+| ORM | [Prisma](https://www.prisma.io/) |
+| Database | PostgreSQL |
+| Frontend | Server-side rendered Handlebars + Tailwind CSS |
+| Auth | JWT (JSON Web Tokens) |
+
+## Dependencies
+
+### Runtime
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/common` | ^11.0.1 | NestJS core decorators, guards, pipes, and utilities |
+| `@nestjs/core` | ^11.0.1 | NestJS application framework |
+| `@nestjs/config` | ^4.0.4 | Environment-based configuration management |
+| `@nestjs/jwt` | ^11.0.2 | JWT token generation and validation |
+| `@nestjs/passport` | ^11.0.5 | Passport authentication integration for NestJS |
+| `@nestjs/platform-express` | ^11.0.1 | Express HTTP adapter for NestJS |
+| `@prisma/client` / `@prisma/adapter-pg` | ^7.8.0 | Prisma ORM client with PostgreSQL adapter |
+| `prisma` | ^7.8.0 | Prisma CLI and schema management |
+| `bcrypt` | ^6.0.0 | Password hashing |
+| `class-transformer` | ^0.5.1 | Object-to-class serialization/deserialization |
+| `class-validator` | ^0.15.1 | Decorator-based input validation |
+| `passport` / `passport-jwt` | ^0.7.0 / ^4.0.1 | JWT authentication strategy |
+| `pg` | ^8.21.0 | PostgreSQL native driver |
+| `express-handlebars` | ^9.0.1 | Handlebars view engine for server-side rendering |
+| `hbs` | ^4.2.1 | Express Handlebars adapter |
+| `reflect-metadata` | ^0.2.2 | TypeScript decorator metadata polyfill |
+| `rxjs` | ^7.8.1 | Reactive extensions for async operations |
+
+### Dev / Build
+
+| Package | Version | Purpose |
+|---|---|---|
+| `@nestjs/cli` | ^11.0.0 | NestJS CLI for code generation and build |
+| `typescript` | ^5.7.3 | TypeScript compiler |
+| `ts-jest` / `jest` | ^30.0.0 | TypeScript-aware unit testing |
+| `supertest` | ^7.0.0 | HTTP integration testing |
+| `eslint` / `prettier` | ^9.x / ^3.4.2 | Code linting and formatting |
+| `ts-loader` | ^9.5.2 | Webpack TypeScript loader (NestJS build) |
+
+## Getting Started
+
+### Prerequisites
+
+- Docker & Docker Compose
+
+### Development Mode
 
 ```bash
-$ npm install
+# 1. Copy environment
+cp .env.example .env
+
+# 2. Start the app with hot reload
+docker compose up -d --build
+
+# 3. Run database migrations
+docker compose exec app npm run db:migrate
+
+# 4. Open browser
+http://localhost:3000
 ```
 
-## Running the app
+### Production Mode
 
 ```bash
-# development
-$ npm run start
+# 1. Copy and configure environment
+cp .env.example .env
 
-# watch mode
-$ npm run start:dev
+# 2. Start the app
+docker compose -f docker-compose.prod.yml up -d --build
 
-# production mode
-$ npm run start:prod
+# 3. Run database migrations
+docker compose -f docker-compose.prod.yml exec app npm run db:migrate:deploy
 ```
 
-## Test
+## Database
+
+### Entity Relationship Diagram
+
+![Database Diagram](docs/diagrams/db.png)
+
+### Schema
+
+The database consists of 4 models defined in [prisma/schema.prisma](prisma/schema.prisma):
+
+| Model | Description |
+|---|---|
+| `User` | Application users (authentication) |
+| `Category` | Product categories |
+| `Product` | Products with price (stored as BigInt) |
+| `ProductCategory` | Many-to-many relation between Product and Category |
+
+### Migrations
 
 ```bash
-# unit tests
-$ npm run test
+# Create and apply a new migration
+docker compose exec app npm run db:migrate
 
-# e2e tests
-$ npm run test:e2e
+# Create migration only (without applying)
+docker compose exec app npm run db:migrate:create
 
-# test coverage
-$ npm run test:cov
+# Apply pending migrations (production)
+docker compose exec app npm run db:migrate:deploy
 ```
 
-## Support
+### Prisma Studio
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Browse and edit data through a GUI:
 
-## Stay in touch
+```bash
+docker compose exec app npm run db:studio
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Generate Prisma Client
 
-## License
+After pulling changes that modify the Prisma schema:
 
-Nest is [MIT licensed](LICENSE).
+```bash
+docker compose exec app npm run db:generate
+```
+
+### Environment
+
+Database connection is configured via `DATABASE_URL` in `.env`:
+
+```
+DATABASE_URL="postgresql://postgres:postgres@db:5432/adminpanel?schema=public"
+```
+
+## Testing
+
+```bash
+# Unit tests
+docker compose exec app npm run test
+
+# E2E tests
+docker compose exec app npm run test:e2e
+
+# Test coverage
+docker compose exec app npm run test:cov
+```

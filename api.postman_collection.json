@@ -1,0 +1,2256 @@
+{
+  "info": {
+    "_postman_id": "e6ebe2a1-47c4-4d68-b035-3a4f085ad5b3",
+    "name": "DOT Test Project API",
+    "description": "API Collection for DOT Test Project\n\nBase URL: http://localhost:3000/api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8647915",
+    "_collection_link": "https://go.postman.co/collection/8647915-e6ebe2a1-47c4-4d68-b035-3a4f085ad5b3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Register",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 201) {",
+                      "    var json = pm.response.json();",
+                      "    if (json.data && json.data.access_token) {",
+                      "        pm.collectionVariables.set('access_token', json.data.access_token);",
+                      "    }",
+                      "    if (json.data && json.data.refresh_token) {",
+                      "        pm.collectionVariables.set('refresh_token', json.data.refresh_token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Test user\",\n  \"email\": \"test@gmail.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/auth/register",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "auth",
+                    "register"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "409",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Test user\",\n  \"email\": \"test@gmail.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "status": "Conflict",
+                  "code": 409,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "74"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"4a-JTgIuXoq8rerASDEsJP7z9e0+uI\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:21:14 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Email already registered\",\n    \"error\": \"Conflict\",\n    \"statusCode\": 409\n}"
+                },
+                {
+                  "name": "201",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Test user\",\n  \"email\": \"test2@gmail.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/register",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "490"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1ea-Mg+LW6NZJ1CzNQkCPdj+LIQGnCs\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:21:37 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Registration successful\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"274c3f3a-f140-470f-bc7a-6c5974d05ca1\",\n            \"name\": \"Test user\",\n            \"email\": \"test2@gmail.com\",\n            \"created_at\": \"2026-06-13T12:21:36.993Z\",\n            \"updated_at\": \"2026-06-13T12:21:36.993Z\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzRjM2YzYS1mMTQwLTQ3MGYtYmM3YS02YzU5NzRkMDVjYTEiLCJlbWFpbCI6InRlc3QyQGdtYWlsLmNvbSIsIm5hbWUiOiJUZXN0IHVzZXIiLCJpYXQiOjE3ODEzNTMyOTcsImV4cCI6MTc4MTM1NDE5N30.lS9BYmF02DsjphPZ1SM8i9tlNauhV-JwkUfzpX35GTU\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyNzRjM2YzYS1mMTQwLTQ3MGYtYmM3YS02YzU5NzRkMDVjYTEiLCJlbWFpbCI6InRlc3QyQGdtYWlsLmNvbSIsIm5hbWUiOiJUZXN0IHVzZXIiLCJpYXQiOjE3ODEzNTMyOTcsImV4cCI6MTc4MTk1ODA5N30.sample-refresh-token\"\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "    var json = pm.response.json();",
+                      "    if (json.data && json.data.access_token) {",
+                      "        pm.collectionVariables.set('access_token', json.data.access_token);",
+                      "    }",
+                      "    if (json.data && json.data.refresh_token) {",
+                      "        pm.collectionVariables.set('refresh_token', json.data.refresh_token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"test@gmail.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"test@gmail.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "481"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1e1-H39asiT0lAF/Hi0GGWNGxFA7Lo8\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:21:57 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"e43434dc-3702-4e73-9ba8-d64e3814815f\",\n            \"name\": \"Test user\",\n            \"email\": \"test@gmail.com\",\n            \"created_at\": \"2026-06-13T05:29:51.934Z\",\n            \"updated_at\": \"2026-06-13T05:29:51.934Z\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNDM0MzRkYy0zNzAyLTRlNzMtOWJhOC1kNjRlMzgxNDgxNWYiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsImlhdCI6MTc4MTM1MzMxNywiZXhwIjoxNzgxMzU0MjE3fQ.r9rHZW5IUi2WeJswZYIrGWDc59W6rS-gJBqcwcwsJsw\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNDM0MzRkYy0zNzAyLTRlNzMtOWJhOC1kNjRlMzgxNDgxNWYiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsImlhdCI6MTc4MTM1MzMxNywiZXhwIjoxNzgxOTU4MTE3fQ.sample-refresh-token\"\n    }\n}"
+                },
+                {
+                  "name": "401",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"test0@gmail.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "73"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"49-Fx+yDPXfDSYD3nxIxyU6P47CVX0\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:22:14 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Invalid credentials\",\n    \"error\": \"Unauthorized\",\n    \"statusCode\": 401\n}"
+                }
+              ]
+            },
+            {
+              "name": "Me",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/auth/me",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "auth",
+                    "me"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/me",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "218"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"da-FM65CEn38bIe1TIwqz33nBqugc8\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:22:33 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"User retrieved successfully\",\n    \"data\": {\n        \"id\": \"e43434dc-3702-4e73-9ba8-d64e3814815f\",\n        \"name\": \"Test user\",\n        \"email\": \"test@gmail.com\",\n        \"created_at\": \"2026-06-13T05:29:51.934Z\",\n        \"updated_at\": \"2026-06-13T05:29:51.934Z\"\n    }\n}"
+                },
+                {
+                  "name": "401",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/me",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "me"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "43"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"2b-dGnJzt6gv1nJjX6DJ9RztDWptng\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:22:47 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Unauthorized\",\n    \"statusCode\": 401\n}"
+                }
+              ]
+            },
+            {
+              "name": "Refresh Token",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "if (pm.response.code === 200) {",
+                      "    var json = pm.response.json();",
+                      "    if (json.data && json.data.access_token) {",
+                      "        pm.collectionVariables.set('access_token', json.data.access_token);",
+                      "    }",
+                      "    if (json.data && json.data.refresh_token) {",
+                      "        pm.collectionVariables.set('refresh_token', json.data.refresh_token);",
+                      "    }",
+                      "}"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/auth/refresh",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "auth",
+                    "refresh"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNDM0MzRkYy0zNzAyLTRlNzMtOWJhOC1kNjRlMzgxNDgxNWYiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsImlhdCI6MTc4MTM1MzMxNywiZXhwIjoxNzgxOTU4MTE3fQ.sample-refresh-token\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/refresh",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "refresh"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "490"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1ea-Mg+LW6NZJ1CzNQkCPdj+LIQGnCs\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:25:00 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Token refreshed successfully\",\n    \"data\": {\n        \"user\": {\n            \"id\": \"e43434dc-3702-4e73-9ba8-d64e3814815f\",\n            \"name\": \"Test user\",\n            \"email\": \"test@gmail.com\",\n            \"created_at\": \"2026-06-13T05:29:51.934Z\",\n            \"updated_at\": \"2026-06-13T05:29:51.934Z\"\n        },\n        \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNDM0MzRkYy0zNzAyLTRlNzMtOWJhOC1kNjRlMzgxNDgxNWYiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsImlhdCI6MTc4MTM1MzMxNywiZXhwIjoxNzgxMzU0MjE3fQ.r9rHZW5IUi2WeJswZYIrGWDc59W6rS-gJBqcwcwsJsw\",\n        \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlNDM0MzRkYy0zNzAyLTRlNzMtOWJhOC1kNjRlMzgxNDgxNWYiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwibmFtZSI6IlRlc3QgdXNlciIsImlhdCI6MTc4MTM1MzMxNywiZXhwIjoxNzgxOTU4MTE3fQ.sample-new-refresh-token\"\n    }\n}"
+                },
+                {
+                  "name": "401",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"refresh_token\": \"invalid-or-expired-token\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/auth/refresh",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "refresh"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "85"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"55-Km7e8Lp2sX4fN9qR3tV6bY8cW0a\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:25:15 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Invalid or expired refresh token\",\n    \"error\": \"Unauthorized\",\n    \"statusCode\": 401\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Products",
+          "item": [
+            {
+              "name": "List products",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "smartphone",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "394"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"18a-WVT+Njp3JZ2RDdw4sKB3Sy34jEo\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 13:13:04 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Products retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": \"9060b50c-b840-4912-9205-a79183373147\",\n            \"name\": \"Smartphone\",\n            \"slug\": \"smartphone\",\n            \"price\": 7500000,\n            \"categories\": [\n                {\n                    \"id\": \"7ca4700f-aae4-4d89-bb92-4e45b458794f\",\n                    \"name\": \"Electronics\",\n                    \"slug\": \"electronics\"\n                }\n            ],\n            \"created_at\": \"2026-06-13T13:12:13.333Z\",\n            \"updated_at\": \"2026-06-13T13:13:00.814Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"total\": 1,\n        \"total_pages\": 1\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Smartphone\",\n  \"price\": 5000000,\n  \"category_ids\": []\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Smartphone\",\n  \"price\": 5000000,\n  \"category_ids\": [\"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\", \"7ca4700f-aae4-4d89-bb92-4e45b458794f\"]\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/products",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "414"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"19e-AAenSGDyxx1QqrCQbY0D117/Rk8\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:20:30 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product created successfully\",\n    \"data\": {\n        \"id\": \"30ea175a-8f9d-40ba-9b22-c7095fe4f118\",\n        \"name\": \"Smartphone\",\n        \"slug\": \"smartphone\",\n        \"price\": 5000000,\n        \"categories\": [\n            {\n                \"id\": \"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\",\n                \"name\": \"T-Shirt\",\n                \"slug\": \"t-shirt\"\n            },\n            {\n                \"id\": \"7ca4700f-aae4-4d89-bb92-4e45b458794f\",\n                \"name\": \"Electronics\",\n                \"slug\": \"electronics\"\n            }\n        ],\n        \"created_at\": \"2026-06-13T12:20:30.403Z\",\n        \"updated_at\": \"2026-06-13T12:20:30.403Z\"\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get product",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/products/{{product_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products",
+                    "{{product_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "416"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1a0-FohyefVsgt9eHV8HR+4kAr97GfM\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:21:00 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product retrieved successfully\",\n    \"data\": {\n        \"id\": \"30ea175a-8f9d-40ba-9b22-c7095fe4f118\",\n        \"name\": \"Smartphone\",\n        \"slug\": \"smartphone\",\n        \"price\": 5000000,\n        \"categories\": [\n            {\n                \"id\": \"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\",\n                \"name\": \"T-Shirt\",\n                \"slug\": \"t-shirt\"\n            },\n            {\n                \"id\": \"7ca4700f-aae4-4d89-bb92-4e45b458794f\",\n                \"name\": \"Electronics\",\n                \"slug\": \"electronics\"\n            }\n        ],\n        \"created_at\": \"2026-06-13T12:20:30.403Z\",\n        \"updated_at\": \"2026-06-13T12:20:30.403Z\"\n    }\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "68"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"44-wTifz+lt5rh8hO6zZnfv4ywflPk\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:24:15 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            },
+            {
+              "name": "Count products",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/products/count",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products",
+                    "count"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/count",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "count"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "69"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"45-izT/EHkekKB/RHIwxh0VrQFu5uQ\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 13:24:15 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product count retrieved successfully\",\n    \"data\": {\n        \"total\": 1\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update product",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Product\",\n  \"price\": 7500000,\n  \"category_ids\": []\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/products/{{product_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products",
+                    "{{product_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Updated Product\",\n  \"price\": 7500000,\n  \"category_ids\": []\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "257"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"101-mEE28Pbp32/As1FNN+Vd8igQEDk\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:23:41 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product updated successfully\",\n    \"data\": {\n        \"id\": \"30ea175a-8f9d-40ba-9b22-c7095fe4f118\",\n        \"name\": \"Updated Product\",\n        \"slug\": \"updated-product\",\n        \"price\": 7500000,\n        \"categories\": [],\n        \"created_at\": \"2026-06-13T12:20:30.403Z\",\n        \"updated_at\": \"2026-06-13T12:23:41.103Z\"\n    }\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Updated Product\",\n  \"price\": 7500000,\n  \"category_ids\": []\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "68"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"44-wTifz+lt5rh8hO6zZnfv4ywflPk\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:24:25 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete product",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/products/{{product_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "products",
+                    "{{product_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "54"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"36-BUV2XRRqOBY4H1VgTn0Yf95yVU4\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:24:01 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product deleted successfully\",\n    \"data\": null\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/products/{{product_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "products",
+                        "{{product_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "68"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"44-wTifz+lt5rh8hO6zZnfv4ywflPk\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:24:32 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Product not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Categories",
+          "item": [
+            {
+              "name": "List categories",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "shirt",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "page",
+                      "value": "1",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "limit",
+                      "value": "1",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories"
+                      ],
+                      "query": [
+                        {
+                          "key": "search",
+                          "value": "shirt",
+                          "type": "text",
+                          "disabled": true
+                        },
+                        {
+                          "key": "page",
+                          "value": "1",
+                          "type": "text",
+                          "disabled": true
+                        },
+                        {
+                          "key": "limit",
+                          "value": "1",
+                          "type": "text",
+                          "disabled": true
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "436"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"1b4-ZUoesnRHETDuipg7GG+laCPvSbE\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 13:11:48 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Categories retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": \"f6421513-7a8a-4622-a90a-ca45705ed955\",\n            \"name\": \"T-Shirt\",\n            \"slug\": \"t-shirt\",\n            \"created_at\": \"2026-06-13T12:29:21.737Z\",\n            \"updated_at\": \"2026-06-13T12:29:21.737Z\"\n        },\n        {\n            \"id\": \"7ca4700f-aae4-4d89-bb92-4e45b458794f\",\n            \"name\": \"Electronics\",\n            \"slug\": \"electronics\",\n            \"created_at\": \"2026-06-13T12:19:45.833Z\",\n            \"updated_at\": \"2026-06-13T12:19:45.833Z\"\n        }\n    ],\n    \"meta\": {\n        \"page\": 1,\n        \"limit\": 10,\n        \"total\": 2,\n        \"per_page\": 1\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Create category",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"T-Shirt\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "201",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"T-Shirt\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "210"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"d2-y5eb7UZGZGilmD5GzN06EJ1/EKM\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:20:04 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category created successfully\",\n    \"data\": {\n        \"id\": \"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\",\n        \"name\": \"T-Shirt\",\n        \"slug\": \"t-shirt\",\n        \"created_at\": \"2026-06-13T12:20:04.029Z\",\n        \"updated_at\": \"2026-06-13T12:20:04.029Z\"\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get category",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories",
+                    "{{category_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "212"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"d4-B7jEMucTO4RGR+GZyBzBCcQkxxw\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:28:00 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category retrieved successfully\",\n    \"data\": {\n        \"id\": \"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\",\n        \"name\": \"T-Shirt\",\n        \"slug\": \"t-shirt\",\n        \"created_at\": \"2026-06-13T12:20:04.029Z\",\n        \"updated_at\": \"2026-06-13T12:20:04.029Z\"\n    }\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "69"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"45-GXqeQ7GjAuXOavS0EfHlAO4052s\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:29:08 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            },
+            {
+              "name": "Count categories",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/categories/count",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories",
+                    "count"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/count",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "count"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "",
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "70"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"46-6S/iQB9doJjuCltwMJDPEEUgr2c\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 13:25:13 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [
+                    {
+                      "expires": "Invalid Date",
+                      "domain": "",
+                      "path": ""
+                    }
+                  ],
+                  "body": "{\n    \"message\": \"Category count retrieved successfully\",\n    \"data\": {\n        \"total\": 2\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "Update category",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Updated Name\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories",
+                    "{{category_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Updated Name\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "220"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"dc-GdAWzyIKsXMCPVchIZtPc3MaIF0\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:28:11 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category updated successfully\",\n    \"data\": {\n        \"id\": \"cc3b03e3-0e5a-4ab3-86a8-bbd0d48e6858\",\n        \"name\": \"Updated Name\",\n        \"slug\": \"updated-name\",\n        \"created_at\": \"2026-06-13T12:20:04.029Z\",\n        \"updated_at\": \"2026-06-13T12:28:11.871Z\"\n    }\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Updated Name\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "69"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"45-GXqeQ7GjAuXOavS0EfHlAO4052s\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:28:57 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            },
+            {
+              "name": "Delete category",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "categories",
+                    "{{category_id}}"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "55"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"37-/IVoDmoNa4X0sHXIpmgEIKRx43s\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:28:24 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category deleted successfully\",\n    \"data\": null\n}"
+                },
+                {
+                  "name": "404",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{access_token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{base_url}}/v1/categories/{{category_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "categories",
+                        "{{category_id}}"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "X-Powered-By",
+                      "value": "Express"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json; charset=utf-8"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "69"
+                    },
+                    {
+                      "key": "ETag",
+                      "value": "W/\"45-GXqeQ7GjAuXOavS0EfHlAO4052s\""
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sat, 13 Jun 2026 12:28:49 GMT"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"message\": \"Category not found\",\n    \"error\": \"Not Found\",\n    \"statusCode\": 404\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "category_id",
+      "value": ""
+    },
+    {
+      "key": "product_id",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    }
+  ]
+}
